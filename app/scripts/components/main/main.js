@@ -2,7 +2,7 @@
 
 /**
  * @ngdoc function
- * @name frontendSeedApp.controller:MainCtrl
+ * @name frontendSeedApp.components.main:MainCtrl
  * @description
  * # MainCtrl
  * Controller of the frontendSeedApp
