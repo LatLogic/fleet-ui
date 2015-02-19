@@ -57,7 +57,7 @@ Remove compass:
     
 Replace with less for bootstrap
  
-    bower install bootstrap
+    bower install bootstrap --save
 
 Modified `Gruntfile.js` to use a less target instead of sass:
 
@@ -109,3 +109,14 @@ Make following changes to `karma.conf.js`:
 
     // web server port
     port: 9080,
+    
+Added globals for jasmine to .jshintrc
+
+    "globals": {
+        ...
+        "afterEach": false,
+        "beforeEach": false,
+        "describe": false,
+        "it": false,
+        "expect": false
+    }
