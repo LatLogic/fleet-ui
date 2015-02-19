@@ -1,5 +1,38 @@
 # Development setup
 
+## NodeJS and dependencies
+
+Install node with npm
+
+    curl -sL https://deb.nodesource.com/setup | sudo bash -
+    sudo apt-get update
+    sudo apt-get install nodejs
+    sudo apt-get install build-essential
+    npm config set prefix ~/.npm-packages
+    
+Update npm itself
+
+    npm install -g npm
+
+Add the following to your `~/.bash_profile`
+
+    NPM_PACKAGES="~/.npm-packages"
+    NODE_PATH="$NPM_PACKAGES/lib/node_modules:$NODE_PATH"
+    PATH="./node_modules/.bin:$NPM_PACKAGES/bin:$PATH"
+
+Update the environment
+
+    source ~/.bashrc
+    
+Make sure you have npm version 2.5.x or later
+
+    npm --version
+
+Install Yeoman and supporting packages
+
+    npm install -g yo bower grunt-cli
+    npm install -g generator-angular
+
 ## PyCharm
 
 ### Install PyCharm plug-ins
@@ -14,38 +47,14 @@
 2. Make sure **Enable** is checked
 3. Make sure **Use config files** is checked and **Default** option (.jshintrc) is selected
 
-## Install node/npm
+### Getting Grunt Launcher to work
 
-Install node with npm
+If you run from bash shell, it should work just fine.
 
-    curl -sL https://deb.nodesource.com/setup | sudo bash -
-    sudo apt-get update
-    sudo apt-get install nodejs
-    sudo apt-get install build-essential
-    npm config set prefix ~/.npm-packages
-    
-Update npm itself
+If you run PyCharm from a Desktop launcher in Ubuntu you need to do the following:
 
-    npm install -g npm
-
-Add the following to your `~/.bashrc` file
-
-    NPM_PACKAGES="~/.npm-packages"
-    NODE_PATH="$NPM_PACKAGES/lib/node_modules:$NODE_PATH"
-    PATH="./node_modules/.bin:$NPM_PACKAGES/bin:$PATH"
-
-Update the environment
-
-    source ~/.bashrc
-    
-Make sure you have npm version 2.5.x or later
-
-    npm --version
-
-## Install Yeoman and supporting packages
-
-    npm install -g yo bower grunt-cli
-    npm install -g generator-angular
+1. Open your pycharm desktop shortcut at `/usr/share/applications/jetbrains-pycharm.desktop` or `~.local/applications/jetbrains-pycharm.desktop`
+2. Change the Exec value to: `/bin/bash -l -c "/path/to/pycharm.sh" %f` (Details [here](http://stackoverflow.com/questions/23927551/webstorm-does-not-recoginize-grunt))
 
 # How this project was generated
 
@@ -124,13 +133,4 @@ Make following changes to `karma.conf.js`:
     // web server port
     port: 9080,
     
-Added globals for jasmine to .jshintrc
-
-    "globals": {
-        ...
-        "afterEach": false,
-        "beforeEach": false,
-        "describe": false,
-        "it": false,
-        "expect": false
-    }
+More details can be found by browsing the commit history
