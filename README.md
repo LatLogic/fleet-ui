@@ -1,5 +1,19 @@
 # Development setup
 
+## PyCharm
+
+### Install PyCharm plug-ins
+
+1. Go to *Settings... > Plugins*
+2. Click **Browse repositories...**
+3. Search for and install the following: NodeJS, Karma
+
+### Enable JSHint code quality tool
+
+1. Go to *Settings... > Languages & Frameworks > Javascript > Code Quality Tools > JSHint*
+2. Make sure **Enable** is checked
+3. Make sure **Use config files** is checked and **Default** option (.jshintrc) is selected
+
 ## Install node/npm
 
 Install node with npm
