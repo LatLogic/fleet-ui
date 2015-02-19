@@ -156,7 +156,7 @@ module.exports = function (grunt) {
             },
             server: {
                 options: {
-                    map: true,
+                    map: true
                 },
                 files: [{
                     expand: true,
@@ -380,10 +380,16 @@ module.exports = function (grunt) {
                     src: ['generated/*']
                 }, {
                     expand: true,
-                    cwd: '.',
-                    src: 'bower_components/bootstrap/dist/fonts/*',
-                    dest: '<%= yeoman.dist %>/styles'
+                    cwd: 'bower_components/bootstrap/dist',
+                    src: 'fonts/*',
+                    dest: '<%= yeoman.dist %>/styles/'
                 }]
+            },
+            fonts: {
+                expand: true,
+                cwd: 'bower_components/bootstrap',
+                src: 'fonts/*',
+                dest: '.tmp/'
             },
             styles: {
                 expand: true,
@@ -425,6 +431,7 @@ module.exports = function (grunt) {
 
         grunt.task.run([
             'clean:server',
+            'copy:fonts',
             'wiredep',
             'concurrent:server',
             'autoprefixer:server',
