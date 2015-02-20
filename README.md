@@ -134,3 +134,7 @@ Make following changes to `karma.conf.js`:
     port: 9080,
     
 More details can be found by browsing the commit history
+
+# Style guide
+
+This [guide](https://github.com/johnpapa/angularjs-styleguide) by John Papa has a lot of great practices
