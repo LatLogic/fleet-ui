@@ -16,9 +16,13 @@ Update npm itself
 
 Add the following to your `~/.bash_profile`
 
-    NPM_PACKAGES="~/.npm-packages"
+    NPM_PACKAGES="${HOME}/.npm-packages"
     NODE_PATH="$NPM_PACKAGES/lib/node_modules:$NODE_PATH"
     PATH="./node_modules/.bin:$NPM_PACKAGES/bin:$PATH"
+
+Add the following to the end of your `~/.bashrc`
+
+    source ${HOME}/.bash_profile
 
 Update the environment
 
