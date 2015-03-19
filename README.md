@@ -14,7 +14,7 @@ Update npm itself
 
     npm install -g npm
 
-Add the following to your `~/.bash_profile`
+Add the following to your `~/.bash_profile` (Create this file if needed)
 
     NPM_PACKAGES="${HOME}/.npm-packages"
     NODE_PATH="$NPM_PACKAGES/lib/node_modules:$NODE_PATH"
@@ -22,7 +22,9 @@ Add the following to your `~/.bash_profile`
 
 Add the following to the end of your `~/.bashrc`
 
-    source ${HOME}/.bash_profile
+    if [ -f ~/.bash_profile ]; then
+        . ~/.bash_profile
+    fi
 
 Update the environment
 
