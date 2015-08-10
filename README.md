@@ -1,6 +1,6 @@
 # Development setup
 
-## Install node/npm
+## NodeJS and dependencies
 
 Install node with npm
 
@@ -14,11 +14,17 @@ Update npm itself
 
     npm install -g npm
 
-Add the following to your `~/.bashrc` file
+Add the following to your `~/.bash_profile` (Create this file if needed)
 
-    NPM_PACKAGES="~/.npm-packages"
+    NPM_PACKAGES="${HOME}/.npm-packages"
     NODE_PATH="$NPM_PACKAGES/lib/node_modules:$NODE_PATH"
     PATH="./node_modules/.bin:$NPM_PACKAGES/bin:$PATH"
+
+Add the following to the end of your `~/.bashrc`
+
+    if [ -f ~/.bash_profile ]; then
+        . ~/.bash_profile
+    fi
 
 Update the environment
 
@@ -28,10 +34,33 @@ Make sure you have npm version 2.5.x or later
 
     npm --version
 
-## Install Yeoman and supporting packages
+Install Yeoman and supporting packages
 
     npm install -g yo bower grunt-cli
     npm install -g generator-angular
+
+## PyCharm
+
+### Install PyCharm plug-ins
+
+1. Go to *File > Settings... > Plugins*
+2. Click **Browse repositories...**
+3. Search for and install the following: NodeJS, Karma
+
+### Enable JSHint code quality tool
+
+1. Go to *File > Settings... > Languages & Frameworks > Javascript > Code Quality Tools > JSHint*
+2. Make sure **Enable** is checked
+3. Make sure **Use config files** is checked and **Default** option (.jshintrc) is selected
+
+### Getting Grunt Launcher to work
+
+If you run from bash shell, it should work just fine.
+
+If you run PyCharm from a Desktop launcher in Ubuntu you need to do the following:
+
+1. Open your pycharm desktop shortcut at `/usr/share/applications/jetbrains-pycharm.desktop` or `~.local/applications/jetbrains-pycharm.desktop`
+2. Change the Exec value to: `/bin/bash -l -c "/path/to/pycharm.sh" %f` (Details [here](http://stackoverflow.com/questions/23927551/webstorm-does-not-recoginize-grunt))
 
 # How this project was generated
 
@@ -110,13 +139,8 @@ Make following changes to `karma.conf.js`:
     // web server port
     port: 9080,
     
-Added globals for jasmine to .jshintrc
+More details can be found by browsing the commit history
 
-    "globals": {
-        ...
-        "afterEach": false,
-        "beforeEach": false,
-        "describe": false,
-        "it": false,
-        "expect": false
-    }
+# Style guide
+
+This [guide](https://github.com/johnpapa/angularjs-styleguide) by John Papa has a lot of great practices
