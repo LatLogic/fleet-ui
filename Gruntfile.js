@@ -155,13 +155,15 @@ module.exports = function (grunt) {
         },
 
         // Add vendor prefixed styles
-        autoprefixer: {
-            options: {
-                browsers: ['last 1 version']
-            },
+        postcss: {
             server: {
                 options: {
-                    map: true
+                    map: true,
+                    processors: [
+                      require('autoprefixer-core')({
+                        browsers: ['last 2 versions']
+                      })
+                    ]
                 },
                 files: [{
                     expand: true,
@@ -450,7 +452,7 @@ module.exports = function (grunt) {
             'wiredep',
             'configureProxies:server',
             'concurrent:server',
-            'autoprefixer:server',
+            'postcss:server',
             'connect:livereload',
             'watch'
         ]);
@@ -460,7 +462,7 @@ module.exports = function (grunt) {
         'clean:server',
         'wiredep',
         'concurrent:test',
-        'autoprefixer',
+        'postcss',
         'connect:test',
         'karma'
     ]);
@@ -470,7 +472,7 @@ module.exports = function (grunt) {
         'wiredep',
         'useminPrepare',
         'concurrent:dist',
-        'autoprefixer',
+        'postcss:dist',
         'concat',
         'ngAnnotate',
         'copy:dist',
