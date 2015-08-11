@@ -3,6 +3,6 @@
 
     angular
         .module('app', [
-            'app.sample'
+            'app.dashboard'
         ]);
 })();

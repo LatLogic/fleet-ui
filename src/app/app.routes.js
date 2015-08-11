@@ -8,10 +8,10 @@
     /* ngInject */
     function config($stateProvider, $urlRouterProvider) {
         $stateProvider
-            .state('sample-main', {
+            .state('dashboard-main', {
                 url: '/',
-                templateUrl: 'app/sample/layout/main.html',
-                controller: 'SampleMain as vm'
+                templateUrl: 'app/dashboard/layout/main.html',
+                controller: 'DashboardMain as vm'
             });
 
         $urlRouterProvider.otherwise('/');

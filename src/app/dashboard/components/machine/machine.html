@@ -1,0 +1,11 @@
+<div class="ll-machine">
+    <div class="panel panel-default">
+        <div class="panel-heading">{{vm.model.IPAddress}}</div>
+        <div class="panel-body">
+            {{vm.model.Metadata | json}}
+            <div ng-repeat="u in vm.model.units">
+                {{u | json}}
+            </div>
+        </div>
+    </div>
+</div>

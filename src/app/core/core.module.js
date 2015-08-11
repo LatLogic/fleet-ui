@@ -16,6 +16,7 @@
             'ngRoute',
 
             // Cross-app modules
+            'app.services',
 
             // 3rd-party modules
             'ui.router'
