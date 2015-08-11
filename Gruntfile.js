@@ -51,7 +51,7 @@ module.exports = function (grunt) {
                     '<%= yeoman.src %>/assets/less/*.less',
                     '<%= yeoman.src %>/app/**/*.less'
                 ],
-                tasks: ['less:server', 'autoprefixer']
+                tasks: ['less:server', 'postcss']
             },
             gruntfile: {
                 files: ['Gruntfile.js']
