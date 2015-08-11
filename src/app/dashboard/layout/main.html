@@ -1,5 +1,25 @@
 <div class="dashboard-main">
-    <div ng-repeat="m in vm.machines">
-        <ll-machine model="m"></ll-machine>
+    <div class="dashboard-header">
+        <div class="container-fluid">
+            <ul class="nav nav-pills">
+                <li role="presentation" ng-class="{'active': vm.viewMode==='unit'}"><a ng-click="vm.viewMode='unit'">By unit</a></li>
+                <li role="presentation" ng-class="{'active': vm.viewMode==='machine'}"><a ng-click="vm.viewMode='machine'">By machine</a></li>
+            </ul>
+            <input type="text" class="form-control" ng-model="vm.filterText" placeholder="Enter keywords...">
+        </div>
+    </div>
+    <div class="dashboard-content">
+        <div class="container-fluid">
+            <div class="row" ng-if="vm.viewMode==='machine'">
+                <div class="col-md-4" ng-repeat="m in vm.machines | filter:vm.filterText">
+                    <ll-machine model="m"></ll-machine>
+                </div>
+            </div>
+            <div class="row" ng-if="vm.viewMode==='unit'">
+                <div class="col-md-4" ng-repeat="u in vm.units | filter:vm.filterText">
+                    <ll-unit model="u"></ll-unit>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

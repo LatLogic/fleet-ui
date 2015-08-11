@@ -3,5 +3,7 @@
 
     /* Module declaration for dashboard.machine components */
     angular
-        .module('app.dashboard.machine', []);
+        .module('app.dashboard.machine', [
+            'app.core'
+        ]);
 })();
