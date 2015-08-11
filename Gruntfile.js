@@ -77,17 +77,9 @@ module.exports = function (grunt) {
                 hostname: '0.0.0.0',
                 livereload: 35729
             },
-            proxies: [{
-                context: '/api',
-                host: 'fleet.latlogic.com',
-                port: 80,
-                xforward: false,
-                headers: {
-                    host: 'fleet.latlogic.com'
-                },
-                rewrite: {
-                }
-            }],
+            proxies: [
+                // TODO
+            ],
             livereload: {
                 options: {
                     debug: true,
