@@ -4,13 +4,12 @@
 
 .dashboard-main {
     .dashboard-header {
-        .nav {
+        .nav, input {
             display: inline-block;
-            vertical-align: top;
+            vertical-align: middle;
         }
         input {
-            display: inline-block;
-            vertical-align: top;
+            margin-left: 10px;
             width: 400px;
         }
     }
@@ -18,11 +17,12 @@
         padding: 20px 0;
         .columns {
             & > li {
-                margin-right: 11px;
+                margin-bottom: 10px;
                 vertical-align: top;
                 width: 400px;
                 .unit-container {
                     border: @ll-unit-border;
+                    margin: 0;
                 }
             }
         }

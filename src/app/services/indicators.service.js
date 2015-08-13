@@ -24,7 +24,7 @@
         }
 
         function getUnitIconClass(unit) {
-            return unit.Unit.endsWith('.timer') ? 'fa fa-clock-o' : '';
+            return unit.Unit.endsWith('.timer') ? 'fa fa-clock-o' : 'fa fa-cog';
         }
 
         function getUnitActiveClass(unit) {

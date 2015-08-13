@@ -2,10 +2,11 @@
     <p>
         <i ng-class="vm.indicatorsSvc.getUnitIconClass(vm.model)"></i>
         {{vm.model.Unit | llUnitName}}
-        <a href="#TODO" ng-if="vm.model.machine">({{vm.model.machine.IPAddress}})</a>
+        <a href="#TODO" ng-if="vm.model.machine">{{vm.model.machine.IPAddress}}</a>
         <ll-unit-status model="vm.model"></ll-unit-status>
     </p>
     <p ng-if="vm.model.timers">
+        <i ng-class="vm.indicatorsSvc.getUnitIconClass(vm.model.timers[0])"></i>
         {{vm.model.timers[0].Unit}}
         <ll-unit-status model="vm.model.timers[0]"></ll-unit-status>
     </p>
