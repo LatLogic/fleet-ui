@@ -3,7 +3,7 @@
         <div class="panel-heading">
             <i ng-class="vm.indicatorsSvc.getMachineIconClass(vm.model)"></i>
             {{vm.model.IPAddress}}
-            ({{vm.model.units.length}})
+            <span class="pull-right badge">{{vm.model.units.length}}</span>
         </div>
         <div class="panel-body">
             <dl class="dl-horizontal">

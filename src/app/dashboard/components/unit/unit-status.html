@@ -1,4 +1,12 @@
 <div class="ll-unit-status">
-    <div ng-class="'label label-'+vm.indicatorsSvc.getUnitLoadClass(vm.model)">{{vm.model.Load}}</div>
-    <div ng-class="'label label-'+vm.indicatorsSvc.getUnitActiveClass(vm.model)">{{vm.model.Sub}}</div>
+    <div class="status-wrapper">
+        <div ng-class="'light light-'+vm.indicatorsSvc.getUnitLoadClass(vm.model)" tooltip="{{vm.model.Load}}">
+            {{vm.model.Load[0].toUpperCase()}}
+        </div>
+    </div>
+    <div class="status-wrapper">
+        <div ng-class="'light light-'+vm.indicatorsSvc.getUnitActiveClass(vm.model)" tooltip="{{vm.model.Sub}}">
+            {{vm.model.Sub[0].toUpperCase()}}
+        </div>
+    </div>
 </div>

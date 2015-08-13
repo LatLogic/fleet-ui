@@ -6,41 +6,69 @@
         .controller('DashboardMain', DashboardMain);
 
     /* @ngInject */
-    function DashboardMain($q, $scope, fleetService) {
+    function DashboardMain($interval, $log, $q, $scope, _, filterService, fleetService) {
         var vm = this;
+
+        // view state
         vm.viewMode = 'machine';  // [unit|machine]
+        vm.keywords = '';
+        vm.loading = false;
+        vm.autoRefreshEnabled = true;
+        vm.autoRefreshInterval = undefined;
+
+        // view data
         vm.machines = [];
         vm.units = [];
-        vm.filterText = '';
 
-        // TODO: define scope variables/functions
+        vm.onKeywordsChange = function() {
+            // TODO angular client-side filtering for now
+            //filterService.pushState({
+            //    keywords: vm.filterText
+            //});
+        };
 
-        // bind all listeners
-        bind([]);
+        vm.onAutoRefreshClick = function() {
+            vm.autoRefreshEnabled = !vm.autoRefreshEnabled;
+            registerAutoRefresh();
+        };
 
-        // activate the controller
-        activate();
+        vm.machineFilter = function(value) {
+            var matchingUnits = value.units.filter(vm.unitFilter);
+            return value.IPAddress.indexOf(vm.keywords)>=0 ||
+                value.Metadata.indexOf(vm.keywords)>=0 ||
+                matchingUnits.length>0;
+        };
 
-        function bind(registrations) {
-
-            // Detach listeners properly
-            $scope.$on('$destroy', function () {
-                angular.forEach(registrations, function (unbind) {
-                    unbind();
-                });
-            });
-        }
+        vm.unitFilter = function(value) {
+            return value.Unit.indexOf(vm.keywords)>=0 ||
+                (value.timers && value.timers[0].Unit.indexOf(vm.keywords)>=0);
+        };
 
         function activate() {
+            vm.loading = true;
+            query();
+
+            registerAutoRefresh();
+        }
+
+        function onFilterChange() {
+            vm.loading = true;
+            queryLazy();
+        }
+
+        function query() {
             $q.all([
                 fleetService.getMachines(),
                 fleetService.getUnits()
             ]).then(function(responses) {
-                _mergeData(responses[0], responses[1]);
+                mergeData(responses[0], responses[1]);
+                vm.loading = false;
             });
         }
 
-        function _mergeData(machines, units) {
+        var queryLazy = _.debounce(query, 1000);
+
+        function mergeData(machines, units) {
             // Build list of units with related machine model
             vm.units = units
                 .map(function(u) {
@@ -71,7 +99,6 @@
                 }
                 return u;
             });
-            //vm.units = _chunk(vm.units, 3);
 
             // Build list of machines with related unit model
             vm.machines = machines.map(function(m) {
@@ -83,13 +110,12 @@
                             delete u.machine;  // remove circular dependency
                             return u;
                         }),
-                    meta_dict: _extractMetadata(m) // TODO make this a dict
+                    meta_dict: extractMetadata(m) // TODO make this a dict
                 });
             });
-            //vm.machines = _chunk(vm.machines, 3);
         }
 
-        function _extractMetadata(machine) {
+        function extractMetadata(machine) {
             return machine.Metadata.split(',')
                 .map(function(pair) {
                     var kv = pair.split('=');
@@ -100,12 +126,38 @@
                 });
         }
 
-        function _chunk(arr, size) {
-            var newArr = [];
-            for (var i=0; i<arr.length; i+=size) {
-                newArr.push(arr.slice(i, i+size));
+        function registerAutoRefresh() {
+            cancelAutoRefresh();
+            if (vm.autoRefreshEnabled) {
+                vm.autoRefreshInterval = $interval(queryLazy, 5000);  // 5 sec
             }
-            return newArr;
+        }
+
+        function cancelAutoRefresh() {
+            if (vm.autoRefreshInterval) {
+                $log.debug('cancel auto-refresh $interval');
+                $interval.cancel(vm.autoRefreshInterval);
+                vm.autoRefreshInterval = undefined;
+            }
+        }
+
+        // bind all listeners and cleanup
+        bind([
+            filterService.addChangeListener(onFilterChange),
+            cancelAutoRefresh
+        ]);
+
+        // activate the controller
+        activate();
+
+        function bind(registrations) {
+
+            // Detach listeners properly
+            $scope.$on('$destroy', function () {
+                angular.forEach(registrations, function (unbind) {
+                    unbind();
+                });
+            });
         }
     }
 })();

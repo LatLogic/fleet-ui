@@ -1,11 +1,10 @@
 // Wrap vendor globals for abstraction from 3rd party libs and testability
 
+/* global _:false */
 (function() {
     'use strict';
 
     angular
         .module('app.core')
-        // TODO define 3rd party libs as constants here
-        //.constant('_', _);
-        ;
+        .constant('_', _);
 })();

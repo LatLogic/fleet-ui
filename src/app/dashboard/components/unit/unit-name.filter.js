@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app.dashboard.machine')
+        .module('app.dashboard.unit')
         .filter('llUnitName', llUnitName);
 
     /* ngInject */

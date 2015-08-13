@@ -1,0 +1,36 @@
+@import "../../../../assets/less/overrides.less";
+
+@ll-unit-status-light-size: 22px;
+
+.ll-unit-status {
+    .status-wrapper {
+        display: inline-block;
+        height: @ll-unit-status-light-size;
+        vertical-align: top;
+        width: @ll-unit-status-light-size;
+        & > .light {
+            background-color: @label-default-bg;
+            border-radius: @ll-unit-status-light-size / 2;
+            cursor: default;
+            font-size: @ll-unit-status-light-size - 8;
+            line-height: @ll-unit-status-light-size;
+            font-weight: 400;
+            text-align: center;
+            &.light-danger {
+                background-color: @label-danger-bg;
+            }
+            &.light-info {
+                background-color: @label-info-bg;
+            }
+            &.light-success {
+                background-color: @label-success-bg;
+            }
+            &.light-warning {
+                background-color: @label-warning-bg;
+            }
+            &:hover {
+                cursor: default;
+            }
+        }
+    }
+}

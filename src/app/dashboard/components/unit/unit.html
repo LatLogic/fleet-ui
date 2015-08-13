@@ -1,13 +1,17 @@
 <div class="ll-unit">
-    <p>
-        <i ng-class="vm.indicatorsSvc.getUnitIconClass(vm.model)"></i>
-        {{vm.model.Unit | llUnitName}}
-        <a href="#TODO" ng-if="vm.model.machine">{{vm.model.machine.IPAddress}}</a>
+    <div>
+        <div>
+            <i ng-class="vm.indicatorsSvc.getUnitIconClass(vm.model)"></i>
+            {{vm.model.Unit | llUnitName}}
+            <a href="#TODO" ng-if="vm.model.machine">{{vm.model.machine.IPAddress}}</a>
+        </div>
         <ll-unit-status model="vm.model"></ll-unit-status>
-    </p>
-    <p ng-if="vm.model.timers">
-        <i ng-class="vm.indicatorsSvc.getUnitIconClass(vm.model.timers[0])"></i>
-        {{vm.model.timers[0].Unit}}
+    </div>
+    <div ng-if="vm.model.timers">
+        <div>
+            <i ng-class="vm.indicatorsSvc.getUnitIconClass(vm.model.timers[0])"></i>
+            {{vm.model.timers[0].Unit}}
+        </div>
         <ll-unit-status model="vm.model.timers[0]"></ll-unit-status>
-    </p>
+    </div>
 </div>

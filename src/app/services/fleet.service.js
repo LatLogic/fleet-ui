@@ -18,7 +18,7 @@
                 method: 'GET',
                 url: '/api/v1/machines'
             }).then(function(response) {
-                $log.debug('Machines:', response.data.length);
+                $log.debug('query machines:', response.data.length);
                 return response.data;
             });
         }
@@ -28,7 +28,7 @@
                 method: 'GET',
                 url: '/api/v1/units'
             }).then(function(response) {
-                $log.debug('Units:', response.data.length);
+                $log.debug('query units:', response.data.length);
                 return response.data;
             });
         }

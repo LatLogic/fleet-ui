@@ -4,13 +4,25 @@
 
 .dashboard-main {
     .dashboard-header {
-        .nav, input {
+        .nav, .input-group, .refresh {
             display: inline-block;
             vertical-align: middle;
         }
-        input {
+        .input-group {
             margin-left: 10px;
             width: 400px;
+            .form-control {
+                width: 300px;
+            }
+        }
+        .auto-refresh {
+            float: right;
+            line-height: 32px;
+            padding: @nav-link-padding;
+            & > span {
+                padding-left: 5px;
+                vertical-align: top;
+            }
         }
     }
     .dashboard-content {

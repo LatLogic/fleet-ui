@@ -1,8 +1,15 @@
+@import "../../../../assets/theme/variables.less";
+
 .ll-unit {
-    p:last-child {
-        margin-bottom: 0;
-    }
-    .ll-unit-status {
-        float: right;
+    & > div {
+        display: inline-flex;
+        justify-content: space-between;
+        margin-bottom: @padding-base-vertical;
+        width: 100%;
+        &:last-child {
+            margin-bottom: 0;
+        }
+        .ll-unit-status {
+        }
     }
 }

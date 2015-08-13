@@ -3,16 +3,28 @@
         <div class="container-fluid">
             <h1>Fleet Dashboard</h1>
             <ul class="nav nav-pills">
-                <li role="presentation" ng-class="{'active': vm.viewMode==='unit'}"><a ng-click="vm.viewMode='unit'">Units ({{vm.units.length}})</a></li>
-                <li role="presentation" ng-class="{'active': vm.viewMode==='machine'}"><a ng-click="vm.viewMode='machine'">Machines ({{vm.machines.length}})</a></li>
+                <li role="presentation" ng-class="{'active': vm.viewMode==='unit'}">
+                    <a ng-click="vm.viewMode='unit'">Units <span class="badge">{{vm.units.length}}</span></a>
+                </li>
+                <li role="presentation" ng-class="{'active': vm.viewMode==='machine'}">
+                    <a ng-click="vm.viewMode='machine'">Machines <span class="badge">{{vm.machines.length}}</span></a>
+                </li>
             </ul>
-            <input type="text" class="form-control" ng-model="vm.filterText" placeholder="Enter keywords...">
+            <div class="input-group">
+                <input type="text" class="form-control" ng-model="vm.keywords" ng-change="vm.onKeywordsChange()" placeholder="Enter keywords...">
+                <span ng-if="vm.keywords.length>0" class="input-group-btn">
+                    <button class="btn btn-primary" ng-click="vm.keywords=''">&times;</button>
+                </span>
+            </div>
+            <div class="auto-refresh" ng-click="vm.onAutoRefreshClick()">
+                <i class="fa fa-2x" ng-class="'fa-toggle-'+(vm.autoRefreshEnabled ? 'on' : 'off')"></i> <span>Auto-refresh</span>
+            </div>
         </div>
     </div>
     <div class="dashboard-content">
         <div class="container-fluid">
             <ul class="list-unstyled list-inline columns" ng-if="vm.viewMode==='unit'">
-                <li ng-repeat="u in vm.units | filter:vm.filterText | orderBy:'Unit'">
+                <li ng-repeat="u in vm.units | filter:vm.unitFilter | orderBy:'Unit'">
                     <div class="unit-container panel panel-default">
                         <div class="panel-body">
                             <ll-unit model="u"></ll-unit>
@@ -24,7 +36,7 @@
                 </li>
             </ul>
             <ul class="list-unstyled list-inline columns" ng-if="vm.viewMode==='machine'">
-                <li ng-repeat="m in vm.machines | filter:vm.filterText | orderBy:'IPAddress'">
+                <li ng-repeat="m in vm.machines | filter:vm.machineFilter | orderBy:'IPAddress'">
                     <ll-machine model="m"></ll-machine>
                 </li>
             </ul>

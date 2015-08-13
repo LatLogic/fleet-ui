@@ -19,6 +19,7 @@
             'app.services',
 
             // 3rd-party modules
+            'ui.bootstrap',
             'ui.router'
         ]);
 })();
