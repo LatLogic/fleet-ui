@@ -3,11 +3,11 @@
         <div class="container-fluid">
             <h1>Fleet Dashboard</h1>
             <ul class="nav nav-pills">
-                <li role="presentation" ng-class="{'active': vm.viewMode==='unit'}">
-                    <a ng-click="vm.viewMode='unit'">Units <span class="badge">{{vm.units.length}}</span></a>
-                </li>
                 <li role="presentation" ng-class="{'active': vm.viewMode==='machine'}">
                     <a ng-click="vm.viewMode='machine'">Machines <span class="badge">{{vm.machines.length}}</span></a>
+                </li>
+                <li role="presentation" ng-class="{'active': vm.viewMode==='unit'}">
+                    <a ng-click="vm.viewMode='unit'">Units <span class="badge">{{vm.units.length}}</span></a>
                 </li>
             </ul>
             <div class="input-group">

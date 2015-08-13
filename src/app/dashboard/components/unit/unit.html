@@ -10,7 +10,7 @@
     <div ng-if="vm.model.timers">
         <div>
             <i ng-class="vm.indicatorsSvc.getUnitIconClass(vm.model.timers[0])"></i>
-            {{vm.model.timers[0].Unit}}
+            {{vm.model.timers[0].Unit | llUnitName}}
         </div>
         <ll-unit-status model="vm.model.timers[0]"></ll-unit-status>
     </div>
