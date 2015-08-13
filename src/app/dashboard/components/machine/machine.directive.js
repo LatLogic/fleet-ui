@@ -21,10 +21,9 @@
         };
 
         /* ngInject */
-        function MachineController($scope) {
+        function MachineController($scope, indicators) {
             var vm = this;
-
-            // TODO: define scope variables/functions
+            vm.indicatorsSvc = indicators;
 
             // bind all listeners
             bind([]);

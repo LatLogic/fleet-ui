@@ -1,0 +1,36 @@
+@import "../../../../assets/less/overrides.less";
+
+@ll-machine-border: 1px solid @theme-dark;
+
+.ll-machine {
+    .panel {
+        border: @ll-machine-border;
+        & > .panel-heading {
+            background-color: @theme-dark;
+        }
+        & > .panel-body {
+            background-color: @theme-light;
+            dl {
+                margin-bottom: 0;
+                dt {
+                    font-weight: 100;
+                    width: auto;
+                }
+                dd {
+                    margin-left: 100px;
+                }
+            }
+        }
+        & > .list-group {
+            .list-group-item {
+                border-top: @ll-machine-border;
+                &:nth-of-type(even) {
+                    background-color: @theme-light;
+                }
+                .ll-unit-status {
+                    float: right;
+                }
+            }
+        }
+    }
+}

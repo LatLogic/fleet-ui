@@ -1,15 +1,22 @@
 <div class="ll-machine">
     <div class="panel panel-default">
         <div class="panel-heading">
-            {{vm.model.IPAddress}} ({{vm.model.units.length}})
+            <i ng-class="vm.indicatorsSvc.getMachineIconClass(vm.model)"></i>
+            {{vm.model.IPAddress}}
+            ({{vm.model.units.length}})
         </div>
         <div class="panel-body">
-            <div ng-repeat="u in vm.model.units">
-                {{u.Unit}}
-            </div>
+            <dl class="dl-horizontal">
+                <dt ng-repeat-start="kv in vm.model.meta_dict">{{kv.key}}</dt>
+                <dd ng-repeat-end>{{kv.value}}</dd>
+            </dl>
         </div>
-        <div class="panel-footer">
-            {{vm.model.Metadata}}
-        </div>
+        <ul class="list-group">
+            <li class="list-group-item" ng-repeat="u in vm.model.units">
+                <ll-unit model="u"></ll-unit>
+                <!--<i ng-class="vm.indicatorsSvc.getUnitIconClass(u)"></i> {{u.Unit | llUnitName}}-->
+                <!--<ll-unit-status model="u"></ll-unit-status>-->
+            </li>
+        </ul>
     </div>
 </div>

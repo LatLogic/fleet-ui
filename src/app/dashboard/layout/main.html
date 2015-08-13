@@ -1,25 +1,30 @@
 <div class="dashboard-main">
     <div class="dashboard-header">
         <div class="container-fluid">
+            <h1>Fleet Dashboard</h1>
             <ul class="nav nav-pills">
-                <li role="presentation" ng-class="{'active': vm.viewMode==='unit'}"><a ng-click="vm.viewMode='unit'">By unit</a></li>
-                <li role="presentation" ng-class="{'active': vm.viewMode==='machine'}"><a ng-click="vm.viewMode='machine'">By machine</a></li>
+                <li role="presentation" ng-class="{'active': vm.viewMode==='unit'}"><a ng-click="vm.viewMode='unit'">Units ({{vm.units.length}})</a></li>
+                <li role="presentation" ng-class="{'active': vm.viewMode==='machine'}"><a ng-click="vm.viewMode='machine'">Machines ({{vm.machines.length}})</a></li>
             </ul>
             <input type="text" class="form-control" ng-model="vm.filterText" placeholder="Enter keywords...">
         </div>
     </div>
     <div class="dashboard-content">
         <div class="container-fluid">
-            <div class="row" ng-if="vm.viewMode==='machine'">
-                <div class="col-md-4" ng-repeat="m in vm.machines | filter:vm.filterText">
+            <ul class="list-unstyled list-inline columns" ng-if="vm.viewMode==='unit'">
+                <li ng-repeat="u in vm.units | filter:vm.filterText | orderBy:'timers.length'">
+                    <div class="unit-container panel panel-default">
+                        <div class="panel-body">
+                            <ll-unit model="u"></ll-unit>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <ul class="list-unstyled list-inline columns" ng-if="vm.viewMode==='machine'">
+                <li ng-repeat="m in vm.machines | filter:vm.filterText | orderBy:'units.length':true">
                     <ll-machine model="m"></ll-machine>
-                </div>
-            </div>
-            <div class="row" ng-if="vm.viewMode==='unit'">
-                <div class="col-md-4" ng-repeat="u in vm.units | filter:vm.filterText">
-                    <ll-unit model="u"></ll-unit>
-                </div>
-            </div>
+                </li>
+            </ul>
         </div>
     </div>
 </div>

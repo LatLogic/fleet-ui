@@ -1,3 +1,30 @@
+@import "../../../assets/less/overrides.less";
+
+@ll-unit-border: 1px solid @theme-dark;
 
 .dashboard-main {
+    .dashboard-header {
+        .nav {
+            display: inline-block;
+            vertical-align: top;
+        }
+        input {
+            display: inline-block;
+            vertical-align: top;
+            width: 400px;
+        }
+    }
+    .dashboard-content {
+        padding: 20px 0;
+        .columns {
+            & > li {
+                margin-right: 11px;
+                vertical-align: top;
+                width: 400px;
+                .unit-container {
+                    border: @ll-unit-border;
+                }
+            }
+        }
+    }
 }

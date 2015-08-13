@@ -3,5 +3,7 @@
 
     /* Module declaration for services components */
     angular
-        .module('app.services', []);
+        .module('app.services', [
+            'app.core'
+        ]);
 })();

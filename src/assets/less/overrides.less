@@ -1,7 +1,3 @@
-// Overrides to 3rd party imports
-@fa-font-path: "/bower_components/font-awesome/fonts";
-@icon-font-path: "/bower_components/bootstrap/fonts/";
-
 @import "../theme/variables.less";
 
 // Generated using theme body-bg of #2B3E50
@@ -16,17 +12,19 @@
 @theme-action: @theme-lightest;  // use for primary actions
 
 // Bootswatch theme overrides
+//@body-bg: @gray-darker;
+//@table-bg-hover: @theme-dark;
 @font-size-base: 16px;
-@table-bg-hover: @theme-dark;
-@body-bg: @gray-darker;
+
+/*
+@navbar-default-link-hover-bg: rgba(255, 255, 255, 0.04);
+@navbar-default-link-hover-color: @theme-active;
+@navbar-default-link-active-bg: rgba(255, 255, 255, 0.04);
+@navbar-default-link-active-color: @theme-active;
+*/
 
 // Fix navigation focus issue
 .navbar-default .navbar-nav > li > a:focus {
     background: inherit;
     color: inherit;
 }
-
-@navbar-default-link-hover-bg: rgba(255, 255, 255, 0.04);
-@navbar-default-link-hover-color: @theme-active;
-@navbar-default-link-active-bg: rgba(255, 255, 255, 0.04);
-@navbar-default-link-active-color: @theme-active;

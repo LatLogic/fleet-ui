@@ -3,27 +3,26 @@
 
     angular
         .module('app.dashboard.unit')
-        .directive('llUnit', llUnit);
+        .directive('llUnitStatus', llUnitStatus);
 
     /* @ngInject */
-    function llUnit(recursionHelper) {
+    function llUnitStatus() {
         return {
             restrict: 'E',
             replace: true,
-            templateUrl: 'app/dashboard/components/unit/unit.html',
+            templateUrl: 'app/dashboard/components/unit/unit-status.html',
             scope: {
                 model: '='
+                // TODO unitState
             },
-            controller: UnitController,
+            controller: UnitStatusController,
             controllerAs: 'vm',
             bindToController: true,
-            compile: function(element) {
-                return recursionHelper.compile(element, link);
-            }
+            link: link
         };
 
         /* ngInject */
-        function UnitController($scope, indicators) {
+        function UnitStatusController($scope, indicators) {
             var vm = this;
             vm.indicatorsSvc = indicators;
 
