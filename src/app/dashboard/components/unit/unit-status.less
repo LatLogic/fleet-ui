@@ -1,32 +1,35 @@
 @import "../../../../assets/less/overrides.less";
 
 @ll-unit-status-light-size: 22px;
+@ll-unit-status-light-border-width: 2px;
+@ll-unit-status-light-wrap-size: @ll-unit-status-light-size + (2*@ll-unit-status-light-border-width);
 
 .ll-unit-status {
     .status-wrapper {
         display: inline-block;
-        height: @ll-unit-status-light-size;
+        height: @ll-unit-status-light-wrap-size;
         vertical-align: middle;
-        width: @ll-unit-status-light-size;
+        width: @ll-unit-status-light-wrap-size;
         & > .light {
             background-color: @gray;
-            border-radius: @ll-unit-status-light-size / 2;
+            border: @ll-unit-status-light-border-width solid transparent;
+            border-radius: @ll-unit-status-light-wrap-size / 2;
             cursor: default;
             font-size: @ll-unit-status-light-size - 8;
             line-height: @ll-unit-status-light-size;
             font-weight: 400;
             text-align: center;
-            &.light-danger {
+            &.light-failed {
                 background-color: @label-danger-bg;
             }
-            &.light-info {
-                background-color: @label-info-bg;
-            }
-            &.light-success {
+            &.light-active,
+            &.light-activating,
+            &.light-loaded {
                 background-color: @label-success-bg;
             }
-            &.light-warning {
-                background-color: @label-warning-bg;
+            &.light-activating,
+            &.light-deactivating {
+                border-color: @text-color;
             }
             &:hover {
                 cursor: default;

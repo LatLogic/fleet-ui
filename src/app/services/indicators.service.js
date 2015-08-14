@@ -28,22 +28,11 @@
         }
 
         function getUnitActiveClass(unit) {
-                switch (unit.Active) {
-                    case 'active':
-                        return unit.Sub==='waiting' ? 'default' : 'success';
-                    case 'activating':
-                    case 'deactivating':
-                        return 'info';
-                    case 'inactive':
-                    case 'failed':
-                        return unit.timers ? 'default' : 'danger';
-                    default:
-                        return 'default';
-                }
+            return unit.Active.toLowerCase();
         }
 
         function getUnitLoadClass(unit) {
-            return unit.Load === 'loaded' ? 'success' : 'warning';
+            return unit.Load.toLowerCase();
         }
     }
 })();
