@@ -3,7 +3,6 @@
         <div>
             <i ng-class="vm.indicatorsSvc.getUnitIconClass(vm.model)"></i>
             {{vm.model.Unit | llUnitName}}
-            <!--<a href="#TODO" ng-if="vm.model.machine">{{vm.model.machine.IPAddress}}</a>-->
         </div>
         <ll-unit-status model="vm.model"></ll-unit-status>
     </div>
@@ -13,5 +12,8 @@
             {{vm.model.timers[0].Unit | llUnitName}}
         </div>
         <ll-unit-status model="vm.model.timers[0]"></ll-unit-status>
+    </div>
+    <div ng-if="!vm.model.timers">
+        <small>(No timer)</small>
     </div>
 </div>
