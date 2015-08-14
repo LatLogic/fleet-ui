@@ -3,10 +3,10 @@
         <div class="container-fluid">
             <h1>Fleet Dashboard</h1>
             <ul class="nav nav-pills">
-                <li role="presentation" ng-class="{'active': vm.query['view-mode']==='machine'}">
+                <li role="presentation" ng-class="{'active': vm.query.view==='machine'}">
                     <a ng-click="vm.onMachineViewModeClick()">Machines <span class="badge">{{vm.machines.length}}</span></a>
                 </li>
-                <li role="presentation" ng-class="{'active': vm.query['view-mode']==='unit'}">
+                <li role="presentation" ng-class="{'active': vm.query.view==='unit'}">
                     <a ng-click="vm.onUnitViewModeClick()">Units <span class="badge">{{vm.units.length}}</span></a>
                 </li>
             </ul>
@@ -25,7 +25,7 @@
     </div>
     <div class="dashboard-content">
         <div class="container-fluid">
-            <ul class="list-unstyled list-inline columns" ng-if="vm.query['view-mode']==='unit'">
+            <ul class="list-unstyled list-inline columns" ng-if="vm.query.view==='unit'">
                 <li ng-repeat="u in vm.units | filter:vm.unitFilter | orderBy:'Unit'">
                     <div class="unit-container panel panel-default">
                         <div class="panel-body">
@@ -37,7 +37,7 @@
                     </div>
                 </li>
             </ul>
-            <ul class="list-unstyled list-inline columns" ng-if="vm.query['view-mode']==='machine'">
+            <ul class="list-unstyled list-inline columns" ng-if="vm.query.view==='machine'">
                 <li ng-repeat="m in vm.machines | filter:vm.machineFilter | orderBy:'IPAddress'">
                     <ll-machine model="m"></ll-machine>
                 </li>

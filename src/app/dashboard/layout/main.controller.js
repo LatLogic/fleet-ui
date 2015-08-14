@@ -32,26 +32,26 @@
 
         vm.onClearKeywordsClick = function() {
             filterService.pushState({
-                'keywords': undefined
+                keywords: undefined
             });
         };
 
         vm.onMachineViewModeClick = function() {
             filterService.pushState({
-                'view-mode': 'machine'
+                view: 'machine'
             });
         };
 
         vm.onUnitViewModeClick = function() {
             filterService.pushState({
-                'view-mode': 'unit'
+                view: 'unit'
             });
         };
 
         vm.onUnitMachineClick = function(unit) {
             filterService.pushState({
-                'view-mode': 'machine',
-                'keywords': unit.machine.IPAddress
+                view: 'machine',
+                keywords: unit.machine.IPAddress
             });
         };
 
