@@ -3,39 +3,41 @@
         <div class="container-fluid">
             <h1>Fleet Dashboard</h1>
             <ul class="nav nav-pills">
-                <li role="presentation" ng-class="{'active': vm.viewMode==='machine'}">
-                    <a ng-click="vm.viewMode='machine'">Machines <span class="badge">{{vm.machines.length}}</span></a>
+                <li role="presentation" ng-class="{'active': vm.query['view-mode']==='machine'}">
+                    <a ng-click="vm.onMachineViewModeClick()">Machines <span class="badge">{{vm.machines.length}}</span></a>
                 </li>
-                <li role="presentation" ng-class="{'active': vm.viewMode==='unit'}">
-                    <a ng-click="vm.viewMode='unit'">Units <span class="badge">{{vm.units.length}}</span></a>
+                <li role="presentation" ng-class="{'active': vm.query['view-mode']==='unit'}">
+                    <a ng-click="vm.onUnitViewModeClick()">Units <span class="badge">{{vm.units.length}}</span></a>
                 </li>
             </ul>
             <div class="input-group">
-                <input type="text" class="form-control" ng-model="vm.keywords" ng-change="vm.onKeywordsChange()" placeholder="Enter keywords...">
-                <span ng-if="vm.keywords.length>0" class="input-group-btn">
-                    <button class="btn btn-primary" ng-click="vm.keywords=''">&times;</button>
+                <input type="text" class="form-control"
+                       ng-model="vm.query.keywords" ng-model-options="{updateOn: 'default blur', debounce: {'default': 500, 'blur': 0}}"
+                       ng-change="vm.onKeywordsChange()" placeholder="Enter keywords...">
+                <span ng-if="vm.query.keywords.length>0" class="input-group-btn">
+                    <button class="btn btn-default" ng-click="vm.onClearKeywordsClick()">&times;</button>
                 </span>
             </div>
             <div class="auto-refresh" ng-click="vm.onAutoRefreshClick()">
-                <i class="fa fa-2x" ng-class="'fa-toggle-'+(vm.autoRefreshEnabled ? 'on' : 'off')"></i> <span>Auto-refresh</span>
+                <i class="fa fa-2x" ng-class="'fa-toggle-'+(vm.autoRefresh.enabled ? 'on' : 'off')"></i> <span>Auto-refresh</span>
             </div>
         </div>
     </div>
     <div class="dashboard-content">
         <div class="container-fluid">
-            <ul class="list-unstyled list-inline columns" ng-if="vm.viewMode==='unit'">
+            <ul class="list-unstyled list-inline columns" ng-if="vm.query['view-mode']==='unit'">
                 <li ng-repeat="u in vm.units | filter:vm.unitFilter | orderBy:'Unit'">
                     <div class="unit-container panel panel-default">
                         <div class="panel-body">
                             <ll-unit model="u"></ll-unit>
                         </div>
-                        <!--<div class="panel-footer">-->
-                            <!--<a href="#TODO">{{u.machine.IPAddress}}</a>-->
-                        <!--</div>-->
+                        <div class="panel-footer">
+                            <a ng-click="vm.onUnitMachineClick(u)" ng-if="u.machine"><i class="fa fa-desktop"></i> {{u.machine.IPAddress}}</a>
+                        </div>
                     </div>
                 </li>
             </ul>
-            <ul class="list-unstyled list-inline columns" ng-if="vm.viewMode==='machine'">
+            <ul class="list-unstyled list-inline columns" ng-if="vm.query['view-mode']==='machine'">
                 <li ng-repeat="m in vm.machines | filter:vm.machineFilter | orderBy:'IPAddress'">
                     <ll-machine model="m"></ll-machine>
                 </li>

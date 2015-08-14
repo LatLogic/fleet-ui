@@ -22,7 +22,7 @@
 
             // Defines the query parameters that can be used in the explore place
             .state('dashboard-main.dashboard-query', {
-                url: '?keywords',
+                url: '?keywords&view-mode',
                 data: {
                 }
             });

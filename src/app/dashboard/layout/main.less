@@ -4,19 +4,24 @@
 
 .dashboard-main {
     .dashboard-header {
-        .nav, .input-group, .refresh {
+        padding: 10px 0;
+        h1 {
+            margin-top: 0;
+        }
+        .nav, .input-group, .auto-refresh {
             display: inline-block;
             vertical-align: middle;
         }
         .input-group {
             margin-left: 10px;
-            width: 400px;
             .form-control {
-                width: 300px;
+                width: 360px;
+            }
+            .input-group-btn {
+                width: auto;
             }
         }
         .auto-refresh {
-            float: right;
             line-height: 32px;
             padding: @nav-link-padding;
             & > span {
@@ -26,7 +31,6 @@
         }
     }
     .dashboard-content {
-        padding: 20px 0;
         .columns {
             & > li {
                 margin-bottom: 10px;
@@ -35,6 +39,10 @@
                 .unit-container {
                     border: @ll-unit-border;
                     margin: 0;
+                    .panel-footer {
+                        font-size: 0.7em;
+                        padding: 5px 15px;
+                    }
                 }
             }
         }

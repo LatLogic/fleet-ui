@@ -9,12 +9,15 @@
     function DashboardMain($interval, $log, $q, $scope, _, filterService, fleetService) {
         var vm = this;
 
+        // query
+        vm.query = {};
+
         // view state
-        vm.viewMode = 'machine';  // [unit|machine]
-        vm.keywords = '';
         vm.loading = false;
-        vm.autoRefreshEnabled = true;
-        vm.autoRefreshInterval = undefined;
+        vm.autoRefresh = {
+            enabled: false,
+            delay: 15000
+        };
 
         // view data
         vm.machines = [];
@@ -22,29 +25,62 @@
 
         vm.onKeywordsChange = function() {
             // TODO angular client-side filtering for now
-            //filterService.pushState({
-            //    keywords: vm.filterText
-            //});
+            filterService.pushState({
+                keywords: vm.query.keywords
+            });
+        };
+
+        vm.onClearKeywordsClick = function() {
+            filterService.pushState({
+                'keywords': undefined
+            });
+        };
+
+        vm.onMachineViewModeClick = function() {
+            filterService.pushState({
+                'view-mode': 'machine'
+            });
+        };
+
+        vm.onUnitViewModeClick = function() {
+            filterService.pushState({
+                'view-mode': 'unit'
+            });
+        };
+
+        vm.onUnitMachineClick = function(unit) {
+            filterService.pushState({
+                'view-mode': 'machine',
+                'keywords': unit.machine.IPAddress
+            });
         };
 
         vm.onAutoRefreshClick = function() {
-            vm.autoRefreshEnabled = !vm.autoRefreshEnabled;
+            vm.autoRefresh.enabled = !vm.autoRefresh.enabled;
             registerAutoRefresh();
         };
 
         vm.machineFilter = function(value) {
+            if (!vm.query.keywords) {
+                return true;
+            }
             var matchingUnits = value.units.filter(vm.unitFilter);
-            return value.IPAddress.indexOf(vm.keywords)>=0 ||
-                value.Metadata.indexOf(vm.keywords)>=0 ||
+            return value.IPAddress.indexOf(vm.query.keywords)>=0 ||
+                value.Metadata.indexOf(vm.query.keywords)>=0 ||
                 matchingUnits.length>0;
         };
 
         vm.unitFilter = function(value) {
-            return value.Unit.indexOf(vm.keywords)>=0 ||
-                (value.timers && value.timers[0].Unit.indexOf(vm.keywords)>=0);
+            if (!vm.query.keywords) {
+                return true;
+            }
+            return value.Unit.indexOf(vm.query.keywords)>=0 ||
+                (value.timers && value.timers[0].Unit.indexOf(vm.query.keywords)>=0);
         };
 
         function activate() {
+            displayQuery();
+
             vm.loading = true;
             query();
 
@@ -52,8 +88,13 @@
         }
 
         function onFilterChange() {
+            displayQuery();
             vm.loading = true;
             queryLazy();
+        }
+
+        function displayQuery() {
+            vm.query = filterService.getState(false);
         }
 
         function query() {
@@ -128,16 +169,16 @@
 
         function registerAutoRefresh() {
             cancelAutoRefresh();
-            if (vm.autoRefreshEnabled) {
-                vm.autoRefreshInterval = $interval(queryLazy, 5000);  // 5 sec
+            if (vm.autoRefresh.enabled) {
+                vm.autoRefresh.promise = $interval(queryLazy, vm.autoRefresh.delay);
             }
         }
 
         function cancelAutoRefresh() {
-            if (vm.autoRefreshInterval) {
+            if (vm.autoRefresh.promise) {
                 $log.debug('cancel auto-refresh $interval');
-                $interval.cancel(vm.autoRefreshInterval);
-                vm.autoRefreshInterval = undefined;
+                $interval.cancel(vm.autoRefresh.promise);
+                vm.autoRefresh.promise = undefined;
             }
         }
 

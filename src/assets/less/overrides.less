@@ -16,15 +16,20 @@
 //@table-bg-hover: @theme-dark;
 @font-size-base: 16px;
 
-/*
 @navbar-default-link-hover-bg: rgba(255, 255, 255, 0.04);
 @navbar-default-link-hover-color: @theme-active;
 @navbar-default-link-active-bg: rgba(255, 255, 255, 0.04);
 @navbar-default-link-active-color: @theme-active;
-*/
 
 // Fix navigation focus issue
 .navbar-default .navbar-nav > li > a:focus {
     background: inherit;
     color: inherit;
 }
+
+// Make links use the action color
+a[href], a[ng-click] {
+    color: @theme-action;
+}
+
+
