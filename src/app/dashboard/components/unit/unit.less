@@ -3,14 +3,16 @@
 .ll-unit {
     & > div {
         display: inline-flex;
+        height: 26px;
         justify-content: space-between;
         margin-bottom: @padding-base-vertical;
         width: 100%;
         &:last-child {
             margin-bottom: 0;
         }
-        small {
+        &.notimer {
             color: darken(@text-color, 30%);
+            line-height: 26px;
         }
     }
 }

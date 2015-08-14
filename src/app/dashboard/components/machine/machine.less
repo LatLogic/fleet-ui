@@ -13,17 +13,17 @@
             background-color: @theme-light;
             dl {
                 margin-bottom: 0;
-                dt {
+                & > dt {
                     font-weight: 100;
                     width: auto;
                 }
-                dd {
+                & > dd {
                     margin-left: 100px;
                 }
             }
         }
         & > .list-group {
-            .list-group-item {
+            & > .list-group-item {
                 border-top: @ll-machine-border;
                 &:nth-of-type(even) {
                     background-color: @table-bg-hover;
