@@ -51,7 +51,7 @@ module.exports = function (grunt) {
                     '<%= yeoman.src %>/assets/less/*.less',
                     '<%= yeoman.src %>/app/**/*.less'
                 ],
-                tasks: ['less:server', 'postcss']
+                tasks: ['less:server', 'postcss:server']
             },
             gruntfile: {
                 files: ['Gruntfile.js']
@@ -464,7 +464,7 @@ module.exports = function (grunt) {
         'clean:server',
         'wiredep',
         'concurrent:test',
-        'postcss',
+        'postcss:server',
         'connect:test',
         'karma'
     ]);
