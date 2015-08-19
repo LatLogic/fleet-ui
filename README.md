@@ -9,26 +9,25 @@
 
 # Configuring the proxy
 
-You will need a proxy to the machine hosting your fleet API. 
+You will need to specify the host and port of your fleet API. The grunt-connect tak will use environment variables to set up the proxy.
 
-The application will interface with ```/api```.
-
-Example using grunt-connect-proxy in ```Gruntfile.js```:
-
+The easiest way is to set the variables ```FLEET_HOST``` and ```FLEET_PORT```. The default values are ```localhost``` and ```80``` respectively.
 ```
-    ...
-    connect: {
-        ...
-        proxies: [{
-            context: '/api',
-            host: '10.10.10.10',
-            port: 80,
-            https: false,
-            xforward: false,
-            headers: {
-                host: '10.10.10.10'
-            }
-        }],
-        ...
-    }
+    export FLEET_HOST="10.10.10.10"
+    export FLEET_PORT="80"
+    grunt serve
 ```
+
+If you wish to proxy without using the grunt-connect task, you should know that
+the application will interface with ```/api``` for all fleet API requests.
+
+# Running the server
+
+## Development
+```grunt serve```
+
+## Production
+```grunt serve:dist```
+
+# Building the application
+```grunt dist``` will produce a ```fleet-ui.tar.gz``` package.

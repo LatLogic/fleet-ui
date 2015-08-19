@@ -77,9 +77,16 @@ module.exports = function (grunt) {
                 hostname: '0.0.0.0',
                 livereload: 35729
             },
-            proxies: [
-                // TODO
-            ],
+            proxies: [{
+                context: '/api',
+                host: process.env.FLEET_HOST || 'localhost',
+                port: process.env.FLEET_PORT || 80,
+                https: false,
+                xforward: false,
+                headers: {
+                    host: process.env.FLEET_HOST || 'localhost'
+                }
+            }],
             livereload: {
                 options: {
                     debug: true,
@@ -409,7 +416,7 @@ module.exports = function (grunt) {
         compress: {
             tar: {
                 options: {
-                    archive: './frontend-seed.tar.gz',
+                    archive: './fleet-ui.tar.gz',
                     mode: 'tgz'
                 },
 
