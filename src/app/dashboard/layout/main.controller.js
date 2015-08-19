@@ -151,20 +151,21 @@
                             delete u.machine;  // remove circular dependency
                             return u;
                         }),
-                    meta_dict: extractMetadata(m) // TODO make this a dict
+                    meta_dict: extractMetadata(m)
                 });
             });
         }
 
         function extractMetadata(machine) {
-            return machine.Metadata.split(',')
+            var list = machine.Metadata.split(',')
                 .map(function(pair) {
                     var kv = pair.split('=');
                     return {
-                        key: kv[0],
+                        name: kv[0],
                         value: kv[1]
                     };
                 });
+            return _.indexBy(list, 'name');
         }
 
         function registerAutoRefresh() {

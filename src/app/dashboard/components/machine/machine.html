@@ -7,8 +7,8 @@
         </div>
         <div class="panel-body">
             <dl class="dl-horizontal">
-                <dt ng-repeat-start="kv in vm.model.meta_dict">{{kv.key}}</dt>
-                <dd ng-repeat-end>{{kv.value}}</dd>
+                <dt ng-repeat-start="(k, v) in vm.model.meta_dict">{{k}}</dt>
+                <dd ng-repeat-end>{{v.value}}</dd>
             </dl>
         </div>
         <ul class="list-group">

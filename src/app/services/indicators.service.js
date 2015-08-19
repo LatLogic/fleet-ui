@@ -16,10 +16,12 @@
         };
 
         function getMachineIconClass(machine) {
-            if (machine.Metadata.indexOf('role=rds') >= 0) {
-                return 'fa fa-database';
-            } else if (machine.Metadata.indexOf('role=processing') >= 0) {
+            if (machine.meta_dict.role.value.indexOf('processing') >= 0) {
                 return 'fa fa-cogs';
+            } else if (machine.meta_dict.role.value ==='rds') {
+                return 'fa fa-database';
+            } else if (machine.meta_dict.role.value === 'web') {
+                return 'fa fa-globe';
             }
         }
 
