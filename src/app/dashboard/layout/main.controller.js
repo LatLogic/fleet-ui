@@ -15,7 +15,7 @@
         // view state
         vm.loading = false;
         vm.autoRefresh = {
-            enabled: false,
+            enabled: true,
             delay: 15000
         };
 
