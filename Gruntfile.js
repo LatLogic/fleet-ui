@@ -85,6 +85,9 @@ module.exports = function (grunt) {
                 xforward: false,
                 headers: {
                     host: process.env.FLEET_HOST || 'localhost'
+                },
+                rewrite: {
+                    '^/api': '/v1-alpha'
                 }
             }],
             livereload: {
