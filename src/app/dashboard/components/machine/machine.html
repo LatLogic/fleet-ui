@@ -1,8 +1,8 @@
-<div class="ll-machine">
+<div class="ll-machine" ng-class="{'collapsed': vm.isCollapsed}">
     <div class="panel panel-default">
         <div class="panel-heading">
             <i class="{{vm.model | llMachineIconClass}}"></i>
-            {{vm.model.primaryIP}}
+            <a ng-click="vm.isCollapsed = !vm.isCollapsed">{{vm.model.primaryIP}}</a>
             <span class="pull-right badge">{{vm.model.units.length}}</span>
         </div>
         <div class="panel-body">

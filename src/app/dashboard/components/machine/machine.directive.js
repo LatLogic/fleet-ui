@@ -23,6 +23,7 @@
         /* ngInject */
         function MachineController($scope) {
             var vm = this;
+            vm.collapsed = false;  // TODO get from localStorage
 
             // bind all listeners
             bind([]);

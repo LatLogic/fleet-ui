@@ -1,11 +1,17 @@
 @import "../../../../assets/less/overrides.less";
 
-@ll-machine-border: 1px solid @brand-secondary;
-
 .ll-machine {
     .panel {
-        border: @ll-machine-border;
         margin: 0;
+        & > .panel-heading {
+            & > a {
+                color: @panel-default-text;
+                &:hover {
+                    cursor: pointer;
+                    text-decoration: underline;
+                }
+            }
+        }
         & > .panel-body {
             dl {
                 margin-bottom: 0;
@@ -19,10 +25,16 @@
         }
         & > .list-group {
             & > .list-group-item {
-                border-top: @ll-machine-border;
                 &:nth-of-type(even) {
                     background-color: @table-bg-hover;
                 }
+            }
+        }
+    }
+    &.collapsed {
+        .panel {
+            & > .list-group {
+                display: none;
             }
         }
     }
