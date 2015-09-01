@@ -22,9 +22,8 @@
         };
 
         /* ngInject */
-        function UnitStatusController($scope, indicators) {
+        function UnitStatusController($scope) {
             var vm = this;
-            vm.indicatorsSvc = indicators;
 
             // bind all listeners
             bind([]);

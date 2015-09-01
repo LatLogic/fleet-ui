@@ -1,35 +1,8 @@
-@import "../theme/variables.less";
+@import "../../../bower_components/bootstrap/less/variables.less";
 
-// Generated using theme body-bg of #2B3E50
-//https://color.adobe.com/create/color-wheel/?base=4&rule=Shades&selected=4&name=SuperHero2&mode=rgb&rgbvalues=0.46425245098039225,0.669387254902064,0.8637254901960785,0.32987745098039223,0.47563725490203407,0.6137254901960785,0.1955024509803922,0.2818872549020042,0.36372549019607847,0.11487745098039219,0.1656372549019863,0.21372549019607845,0.16862745098039217,0.24313725490196078,0.3137254901960784&swatchOrder=0,1,2,3,4
-@theme-base: #2B3E50;
-@theme-dark: #1D2A36;
-@theme-light: #32485D;
-@theme-lighter: #54799C;
-@theme-lightest: #76ABDC;
+@brand-primary: #f1606d;
+@brand-secondary: #53a3da;
 
-@theme-active: @brand-primary;  // use for selection
-@theme-action: @theme-lightest;  // use for primary actions
-
-// Bootswatch theme overrides
-//@body-bg: @gray-darker;
-//@table-bg-hover: @theme-dark;
-@font-size-base: 16px;
-
-@navbar-default-link-hover-bg: rgba(255, 255, 255, 0.04);
-@navbar-default-link-hover-color: @theme-active;
-@navbar-default-link-active-bg: rgba(255, 255, 255, 0.04);
-@navbar-default-link-active-color: @theme-active;
-
-// Fix navigation focus issue
-.navbar-default .navbar-nav > li > a:focus {
-    background: inherit;
-    color: inherit;
-}
-
-// Make links use the action color
-a[href], a[ng-click] {
-    color: @theme-action;
-}
-
+@link-color: @brand-secondary;
+@component-active-bg: @brand-secondary;
 

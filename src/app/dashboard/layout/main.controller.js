@@ -51,7 +51,7 @@
         vm.onUnitMachineClick = function(unit) {
             filterService.pushState({
                 view: 'machine',
-                keywords: unit.machine.IPAddress
+                keywords: unit.machine.primaryIP
             });
         };
 
@@ -65,8 +65,8 @@
                 return true;
             }
             var matchingUnits = value.units.filter(vm.unitFilter);
-            return value.IPAddress.indexOf(vm.query.keywords)>=0 ||
-                value.Metadata.indexOf(vm.query.keywords)>=0 ||
+            return value.primaryIP.indexOf(vm.query.keywords)>=0 ||
+                _.values(value.metadata).join('').indexOf(vm.query.keywords)>=0 ||
                 matchingUnits.length>0;
         };
 
@@ -74,8 +74,8 @@
             if (!vm.query.keywords) {
                 return true;
             }
-            return value.Unit.indexOf(vm.query.keywords)>=0 ||
-                (value.timers && value.timers[0].Unit.indexOf(vm.query.keywords)>=0);
+            return value.name.indexOf(vm.query.keywords)>=0 ||
+                (value.timers && value.timers[0].name.indexOf(vm.query.keywords)>=0);
         };
 
         function activate() {
@@ -100,38 +100,45 @@
         function query() {
             $q.all([
                 fleetService.getMachines(),
-                fleetService.getUnits()
+                fleetService.getUnits(),
+                fleetService.getState()
             ]).then(function(responses) {
-                mergeData(responses[0], responses[1]);
+                mergeData(responses[0], responses[1], responses[2]);
                 vm.loading = false;
             });
         }
 
         var queryLazy = _.debounce(query, 1000);
 
-        function mergeData(machines, units) {
+        function mergeData(machines, units, states) {
             // Build list of units with related machine model
             vm.units = units
                 .map(function(u) {
+
+                    // Add machine and state information
                     return angular.extend(u, {
                         machine: angular.copy(machines)
                             .filter(function(m) {
-                                return u.Machine.split('/')[0] === m.Machine;
-                            })[0]
+                                return u.machineID === m.id;
+                            })[0],
+                        state: states.filter(function(s) {
+                            return u.name===s.name;
+                        })[0]
                     });
                 });
 
             // Combine timers with their corresponding unit
             var nonTimers = vm.units.filter(function(u) {
-                return !u.Unit.endsWith('.timer');
+                return !u.name.endsWith('.timer');
             });
             var timers = vm.units.filter(function(u) {
-                return u.Unit.endsWith('.timer');
+                return u.name.endsWith('.timer');
             });
 
+            // Add timer information if applicable
             vm.units = nonTimers.map(function(u) {
                 var matches = timers.filter(function(t) {
-                    return t.Unit.split('.').slice(0, -1).join('.') === u.Unit.split('.').slice(0, -1).join('.');
+                    return t.name.split('.').slice(0, -1).join('.') === u.name.split('.').slice(0, -1).join('.');
                 });
                 if (matches.length > 0) {
                     return angular.extend(u, {
@@ -146,26 +153,13 @@
                 return angular.extend(m, {
                     units: angular.copy(vm.units)
                         .filter(function(u) {
-                            return u.Machine.split('/')[0] === m.Machine;
+                            return u.machineID === m.id;
                         }).map(function(u) {
                             delete u.machine;  // remove circular dependency
                             return u;
-                        }),
-                    meta_dict: extractMetadata(m)
+                        })
                 });
             });
-        }
-
-        function extractMetadata(machine) {
-            var list = machine.Metadata.split(',')
-                .map(function(pair) {
-                    var kv = pair.split('=');
-                    return {
-                        name: kv[0],
-                        value: kv[1]
-                    };
-                });
-            return _.indexBy(list, 'name');
         }
 
         function registerAutoRefresh() {

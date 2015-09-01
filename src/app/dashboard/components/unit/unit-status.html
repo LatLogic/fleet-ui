@@ -1,12 +1,12 @@
 <div class="ll-unit-status">
     <div class="status-wrapper">
-        <div ng-class="'light light-'+vm.indicatorsSvc.getUnitLoadClass(vm.model)" tooltip="{{vm.model.Load}}">
-            {{vm.model.Load[0].toUpperCase()}}
+        <div class="light light-{{vm.model | llUnitLoadState}}" tooltip="{{vm.model | llUnitLoadState}}">
+            {{vm.model | llUnitLoadState:true | llInitial}}
         </div>
     </div>
     <div class="status-wrapper">
-        <div ng-class="'light light-'+vm.indicatorsSvc.getUnitActiveClass(vm.model)" tooltip="{{vm.model.Sub}}">
-            {{vm.model.Sub[0].toUpperCase()}}
+        <div class="light light-{{vm.model | llUnitActiveState}}" tooltip="{{vm.model | llUnitLoadState}}">
+            {{vm.model | llUnitSubState | llInitial}}
         </div>
     </div>
 </div>

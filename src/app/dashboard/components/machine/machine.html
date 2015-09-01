@@ -1,14 +1,14 @@
 <div class="ll-machine">
     <div class="panel panel-default">
         <div class="panel-heading">
-            <i ng-class="vm.indicatorsSvc.getMachineIconClass(vm.model)"></i>
-            {{vm.model.IPAddress}}
+            <i class="{{vm.model | llMachineIconClass}}"></i>
+            {{vm.model.primaryIP}}
             <span class="pull-right badge">{{vm.model.units.length}}</span>
         </div>
         <div class="panel-body">
             <dl class="dl-horizontal">
-                <dt ng-repeat-start="(k, v) in vm.model.meta_dict">{{k}}</dt>
-                <dd ng-repeat-end>{{v.value}}</dd>
+                <dt ng-repeat-start="(k, v) in vm.model.metadata">{{k}}</dt>
+                <dd ng-repeat-end>{{v}}</dd>
             </dl>
         </div>
         <ul class="list-group">

@@ -10,7 +10,8 @@
 
         return {
             getMachines: getMachines,
-            getUnits: getUnits
+            getUnits: getUnits,
+            getState: getState
         };
 
         function getMachines() {
@@ -18,8 +19,9 @@
                 method: 'GET',
                 url: '/api/machines'
             }).then(function(response) {
-                $log.debug('query machines:', response.data.length);
-                return response.data.machines || [];
+                var data = response.data.machines || [];
+                $log.debug('query machines:', data.length);
+                return data;
             });
         }
 
@@ -28,8 +30,20 @@
                 method: 'GET',
                 url: '/api/units'
             }).then(function(response) {
-                $log.debug('query units:', response.data.length);
-                return response.data.units || [];
+                var data = response.data.units || [];
+                $log.debug('query units:', data.length);
+                return data;
+            });
+        }
+
+        function getState() {
+            return $http({
+                method: 'GET',
+                url: '/api/state'
+            }).then(function(response) {
+                var data = response.data.states || [];
+                $log.debug('query states:', data.length);
+                return data;
             });
         }
     }

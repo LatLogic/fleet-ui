@@ -1,19 +1,7 @@
 <div class="ll-unit">
-    <div>
-        <div>
-            <i ng-class="vm.indicatorsSvc.getUnitIconClass(vm.model)"></i>
-            {{vm.model.Unit | llUnitName}}
-        </div>
-        <ll-unit-status model="vm.model"></ll-unit-status>
+    <div class="unit-label">
+        <i class="{{vm.model | llUnitIconClass}}"></i>
+        {{vm.model.name | llUnitName}}
     </div>
-    <div ng-if="vm.model.timers">
-        <div>
-            <i ng-class="vm.indicatorsSvc.getUnitIconClass(vm.model.timers[0])"></i>
-            {{vm.model.timers[0].Unit | llUnitName}}
-        </div>
-        <ll-unit-status model="vm.model.timers[0]"></ll-unit-status>
-    </div>
-    <div ng-if="!vm.model.timers" class="notimer">
-        <small>(No timer)</small>
-    </div>
+    <ll-unit-status model="vm.model"></ll-unit-status>
 </div>
