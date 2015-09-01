@@ -12,7 +12,9 @@
             replace: true,
             templateUrl: 'app/dashboard/components/unit/unit.html',
             scope: {
-                model: '='
+                model: '=',
+                hideMachine: '=',
+                onMachineClick: '&'
             },
             controller: UnitController,
             controllerAs: 'vm',

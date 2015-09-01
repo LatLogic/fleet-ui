@@ -3,5 +3,8 @@
         <i class="{{vm.model | llUnitIconClass}}"></i>
         {{vm.model.name | llUnitName}}
     </div>
+    <div ng-if="!vm.hideMachine && vm.model.machine">
+        <a ng-click="vm.onMachineClick({machine: vm.model.machine})"><i class="fa fa-sitemap"></i> {{vm.model.machine.primaryIP}}</a>
+    </div>
     <ll-unit-status model="vm.model"></ll-unit-status>
 </div>

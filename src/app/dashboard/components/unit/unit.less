@@ -5,7 +5,13 @@
     height: 26px;
     justify-content: space-between;
     width: 100%;
-    .unit-label {
-        line-height: 26px;
+    & > .unit-label {
+        flex: 0 0 40%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    & > * {
+        align-self: center;
     }
 }

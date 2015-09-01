@@ -48,10 +48,10 @@
             });
         };
 
-        vm.onUnitMachineClick = function(unit) {
+        vm.onUnitMachineClick = function(machine) {
             filterService.pushState({
                 view: 'machine',
-                keywords: unit.machine.primaryIP
+                keywords: machine.primaryIP
             });
         };
 

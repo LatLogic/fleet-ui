@@ -1,20 +1,15 @@
 @import "../../../../assets/less/overrides.less";
 
-@ll-machine-border: 1px solid @gray;
+@ll-machine-border: 1px solid @brand-secondary;
 
 .ll-machine {
     .panel {
         border: @ll-machine-border;
         margin: 0;
-        & > .panel-heading {
-            background-color: @gray;
-        }
         & > .panel-body {
-            background-color: @gray-light;
             dl {
                 margin-bottom: 0;
                 & > dt {
-                    font-weight: 100;
                     width: auto;
                 }
                 & > dd {
