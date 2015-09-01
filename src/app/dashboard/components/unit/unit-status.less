@@ -13,11 +13,11 @@
         & > .light {
             background-color: @gray;
             border: @ll-unit-status-light-border-width solid transparent;
-            border-radius: @ll-unit-status-light-wrap-size / 2;
+            border-radius: @border-radius-base;
+            color: @component-active-color;
             cursor: default;
             font-size: @ll-unit-status-light-size - 8;
             line-height: @ll-unit-status-light-size;
-            font-weight: 400;
             text-align: center;
             &.light-failed {
                 background-color: @label-danger-bg;
