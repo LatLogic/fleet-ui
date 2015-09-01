@@ -7,7 +7,7 @@
         </div>
         <div class="panel-body">
             <dl class="dl-horizontal">
-                <dt ng-repeat-start="(k, v) in vm.model.metadata">{{k}}</dt>
+                <dt ng-repeat-start="(k, v) in vm.model.metadata">{{k | llHumanize}}</dt>
                 <dd ng-repeat-end>{{v}}</dd>
             </dl>
         </div>

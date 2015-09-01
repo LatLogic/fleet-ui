@@ -3,7 +3,20 @@
 
     angular
         .module('app.core')
-        .filter('llInitial', llInitial);
+        .filter('llHumanize', llHumanize)
+        .filter('llInitial', llInitial)
+    ;
+
+    /* ngInject */
+    function llHumanize() {
+
+        return function (value) {
+            if (angular.isUndefined(value)) {
+                return '';
+            }
+            return value.split(/[_\-\.]+/).join(' ');
+        };
+    }
 
     /* ngInject */
     function llInitial() {
