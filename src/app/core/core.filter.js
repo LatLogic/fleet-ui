@@ -5,6 +5,7 @@
         .module('app.core')
         .filter('llHumanize', llHumanize)
         .filter('llInitial', llInitial)
+        .filter('llObjectKeys', llObjectKeys)
     ;
 
     /* ngInject */
@@ -28,4 +29,15 @@
             return value.toUpperCase()[0];
         };
     }
+
+    /* ngInject */
+    function llObjectKeys() {
+        return function (options) {
+            if (angular.isUndefined(options)) {
+                return [];
+            }
+            return Object.keys(options);
+        };
+    }
+
 })();

@@ -1,8 +1,8 @@
 <div class="ll-unit">
-    <div class="unit-label">
+    <a class="unit-label" ng-click="vm.onLabelClick()">
         <i class="{{vm.model | llUnitIconClass}}"></i>
         {{vm.model.name | llUnitName}}
-    </div>
+    </a>
     <div ng-if="!vm.hideMachine && vm.model.machine">
         <a ng-click="vm.onMachineClick({machine: vm.model.machine})"><i class="fa fa-sitemap"></i> {{vm.model.machine.primaryIP}}</a>
     </div>

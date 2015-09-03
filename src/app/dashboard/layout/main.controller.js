@@ -123,7 +123,8 @@
                             })[0],
                         state: states.filter(function(s) {
                             return u.name===s.name;
-                        })[0]
+                        })[0],
+                        options: _.groupBy(u.options, 'section')
                     });
                 });
 

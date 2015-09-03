@@ -25,8 +25,25 @@
         };
 
         /* ngInject */
-        function UnitController($scope) {
+        function UnitController($log, $modal, $scope) {
             var vm = this;
+
+            vm.onLabelClick = function() {
+                var modal = $modal.open({
+                    templateUrl: 'app/dashboard/components/unit/unit-detail.html',
+                    controller: 'UnitDetailController as vm',
+                    size: 'lg',
+                    resolve: {
+                        model: function() {
+                            return vm.model;
+                        }
+                    }
+                });
+
+                modal.result.then(function() {
+                    $log.debug('modal closed');
+                });
+            };
 
             // bind all listeners
             bind([]);
