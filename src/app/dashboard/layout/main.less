@@ -38,11 +38,18 @@
     }
     .dashboard-content {
         .columns {
-            & > li {
+            display: inline-flex;
+            flex-wrap: wrap;
+            & > div {
                 margin-bottom: 10px;
-                min-width: 250px;
-                vertical-align: top;
-                width: 25%;
+                margin-right: 10px;
+                min-width: 300px;
+                &[ng-drop] {
+                    min-height: 133px;
+                    &.drag-enter {
+                        background-color: fade(@brand-secondary, 20%);
+                    }
+                }
                 .unit-container {
                     border: @ll-unit-border;
                     margin: 0;

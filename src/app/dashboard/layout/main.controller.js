@@ -7,6 +7,8 @@
 
     /* @ngInject */
     function DashboardMain($interval, $log, $q, $scope, _, filterService, fleetService) {
+        var MAX_MACHINE_SLOTS = 10;
+
         var vm = this;
 
         // query
@@ -21,6 +23,7 @@
 
         // view data
         vm.machines = [];
+        vm.machineSlots = [];
         vm.units = [];
 
         vm.onKeywordsChange = function() {
@@ -60,23 +63,39 @@
             registerAutoRefresh();
         };
 
-        vm.machineFilter = function(value) {
-            if (!vm.query.keywords) {
+        vm.machineFilter = function(slot) {
+            if (!vm.query.keywords || !slot.machineId) {
                 return true;
             }
-            var matchingUnits = value.units.filter(vm.unitFilter);
-            return value.primaryIP.indexOf(vm.query.keywords)>=0 ||
-                _.values(value.metadata).join('').indexOf(vm.query.keywords)>=0 ||
+            var machine = vm.machines[slot.machineId];
+            var matchingUnits = machine.units.filter(vm.unitFilter);
+            return machine.primaryIP.indexOf(vm.query.keywords)>=0 ||
+                _.values(machine.metadata).join('').indexOf(vm.query.keywords)>=0 ||
                 matchingUnits.length>0;
         };
 
-        vm.unitFilter = function(value) {
+        vm.unitFilter = function(unit) {
             if (!vm.query.keywords) {
                 return true;
             }
-            return value.name.indexOf(vm.query.keywords)>=0 ||
-                (value.timers && value.timers[0].name.indexOf(vm.query.keywords)>=0);
+            return unit.name.indexOf(vm.query.keywords)>=0 ||
+                (unit.timers && unit.timers[0].name.indexOf(vm.query.keywords)>=0);
         };
+
+        vm.onDropComplete = function(tgtSlot, srcSlot) {
+            if (!srcSlot || !tgtSlot) {
+                return;
+            }
+            swapSlots(tgtSlot, srcSlot);
+        };
+
+        function swapSlots(to, from) {
+            var swap = angular.copy(to);
+            to.machineId = from.machineId;
+            to.expanded = from.expanded;
+            from.machineId = swap.machineId;
+            from.expanded = swap.expanded;
+        }
 
         function activate() {
             displayQuery();
@@ -150,7 +169,7 @@
             });
 
             // Build list of machines with related unit model
-            vm.machines = machines.map(function(m) {
+            var machineList = machines.map(function(m) {
                 return angular.extend(m, {
                     units: angular.copy(vm.units)
                         .filter(function(u) {
@@ -161,6 +180,32 @@
                         })
                 });
             });
+
+            // Index by machine ID
+            vm.machines = _.indexBy(machineList, 'id');
+
+            if (vm.machineSlots.length === 0) {
+                vm.machineSlots = Object.keys(vm.machines)
+                    .sort(compareMachineIds)
+                    .map(function(id, index) {
+                        return {
+                            order: index,
+                            machineId: id
+                        };
+                    });
+            }
+            if (vm.machineSlots.length < MAX_MACHINE_SLOTS) {
+                for (var i=vm.machineSlots.length; i<=MAX_MACHINE_SLOTS; i++) {
+                    vm.machineSlots.push({
+                        order: i
+                    });
+                }
+            }
+        }
+
+        // Sort by most units descending
+        function compareMachineIds(a, b) {
+            return vm.machines[b].units.length - vm.machines[a].units.length;
         }
 
         function registerAutoRefresh() {

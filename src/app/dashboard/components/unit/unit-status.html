@@ -1,9 +1,9 @@
 <div class="ll-unit-status">
-    <div class="status-wrapper">
-        <div class="light light-{{vm.model | llUnitLoadState}}" tooltip="{{vm.model | llUnitLoadState}}">
-            {{vm.model | llUnitLoadState:true | llInitial}}
-        </div>
-    </div>
+    <!--<div class="status-wrapper">-->
+        <!--<div ng-if="vm.model.state" class="light light-{{vm.model | llUnitLoadState}}" tooltip="{{vm.model | llUnitLoadState}}">-->
+            <!--{{vm.model | llUnitLoadState:true | llInitial}}-->
+        <!--</div>-->
+    <!--</div>-->
     <div class="status-wrapper">
         <div class="light light-{{vm.model | llUnitActiveState}}" tooltip="{{vm.model | llUnitSubState}}">
             {{vm.model | llUnitSubState | llInitial}}

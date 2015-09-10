@@ -3,7 +3,40 @@
 .ll-machine {
     .panel {
         margin: 0;
+        &.summary-active {
+            border-color: @label-success-bg;
+            & > .panel-heading {
+                background-color: @label-success-bg;
+                border-color: @label-success-bg;
+                & > .badge {
+                    color: @label-success-bg;
+                }
+            }
+        }
+        &.summary-mixed {
+            border-color: @label-warning-bg;
+            & > .panel-heading {
+                background-color: @label-warning-bg;
+                border-color: @label-warning-bg;
+                & > .badge {
+                    color: @label-warning-bg;
+                }
+            }
+        }
+        &.summary-inactive {
+            border-color: @label-danger-bg;
+            & > .panel-heading {
+                background-color: @label-danger-bg;
+                border-color: @label-danger-bg;
+                & > .badge {
+                    color: @label-danger-bg;
+                }
+            }
+        }
         & > .panel-heading {
+            &:hover {
+                cursor: move;
+            }
             & > a {
                 color: @panel-default-text;
                 &:hover {
@@ -12,7 +45,7 @@
                 }
             }
         }
-        & > .panel-body {
+        & > .machine-meta {
             dl {
                 margin-bottom: 0;
                 & > dt {
@@ -23,19 +56,22 @@
                 }
             }
         }
-        & > .list-group {
+        & > .machine-detail {
             & > .list-group-item {
                 &:nth-of-type(even) {
                     background-color: @table-bg-hover;
                 }
             }
         }
-    }
-    &.collapsed {
-        .panel {
-            & > .list-group {
-                display: none;
+        & > .panel-footer {
+            .expand-toggle {
+                display: block;
+                text-align: center;
             }
+        }
+    }
+    &.expanded {
+        .panel {
         }
     }
 }

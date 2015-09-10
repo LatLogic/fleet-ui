@@ -12,7 +12,7 @@
 
     /* ngInject */
     function llUnitName() {
-        return function (value) {
+        return function(value) {
             if (angular.isUndefined(value)) {
                 return '';
             }
@@ -22,7 +22,7 @@
 
     /* ngInject */
     function llUnitIconClass() {
-        return function (unit) {
+        return function(unit) {
             if (angular.isUndefined(unit) || !unit.timers) {
                 return 'fa fa-cog';
             }
@@ -32,35 +32,41 @@
 
     /* ngInject */
     function llUnitActiveState() {
-        return _getStateFilter('systemdActiveState');
+        return _getStateFilter('systemdActiveState', 'currentState');
     }
 
     /* ngInject */
     function llUnitLoadState() {
-        return _getStateFilter('systemdLoadState');
+        return _getStateFilter('systemdLoadState', 'currentState');
     }
 
     /* ngInject */
     function llUnitSubState() {
-        return _getStateFilter('systemdSubState');
+        return _getStateFilter('systemdSubState', 'currentState');
     }
 
-    function _getStateFilter(property) {
-        return function (unit, ignoreTimer) {
+    function _getStateFilter(property, fallbackProperty) {
+        return function(unit, ignoreTimer) {
             if (angular.isUndefined(unit)) {
-                return '';
+                return undefined;
             }
             if (ignoreTimer || !unit.timers) {
-                return _getValue(unit, property);
+                return _getStateValue(unit, property) ||
+                    _getValue(unit, fallbackProperty);
             }
-            return _getValue(unit.timers[0], property);
+            return _getStateValue(unit.timers[0], property) ||
+                _getValue(unit.timers[0], fallbackProperty);
         };
     }
 
-    function _getValue(unit, property) {
+    function _getStateValue(unit, property) {
         if (angular.isUndefined(unit.state)) {
-            return '';
+            return undefined;
         }
         return unit.state[property];
+    }
+
+    function _getValue(unit, property) {
+        return unit[property];
     }
 })();

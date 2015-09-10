@@ -25,20 +25,22 @@
     </div>
     <div class="dashboard-content">
         <div class="container-fluid">
-            <ul class="list-unstyled list-inline columns" ng-if="vm.query.view==='unit'">
-                <li ng-repeat="u in vm.units | filter:vm.unitFilter | orderBy:'name'">
+            <div class="columns" ng-if="vm.query.view==='unit'">
+                <div ng-repeat="u in vm.units | filter:vm.unitFilter | orderBy:'name'">
                     <div class="unit-container panel panel-default">
                         <div class="panel-body">
                             <ll-unit model="u" on-machine-click="vm.onUnitMachineClick(machine)"></ll-unit>
                         </div>
                     </div>
-                </li>
-            </ul>
-            <ul class="list-unstyled list-inline columns" ng-if="vm.query.view==='machine'">
-                <li ng-repeat="m in vm.machines | filter:vm.machineFilter | orderBy:'primaryIP'">
-                    <ll-machine model="m"></ll-machine>
-                </li>
-            </ul>
+                </div>
+            </div>
+            <div class="columns" ng-if="vm.query.view==='machine'">
+                <div ng-repeat="slot in vm.machineSlots | filter:vm.machineFilter | orderBy:'order' track by slot.order"
+                    ng-drop="true" ng-drop-success="vm.onDropComplete(slot, $data)">
+                    <ll-machine ng-if="slot.machineId" model="vm.machines[slot.machineId]" expanded="slot.expanded"
+                                ng-drag="true" ng-drag-data="slot"></ll-machine>
+                </div>
+            </div>
         </div>
     </div>
 </div>

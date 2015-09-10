@@ -12,6 +12,7 @@
             replace: true,
             templateUrl: 'app/dashboard/components/machine/machine.html',
             scope: {
+                expanded: '=',
                 model: '='
             },
             controller: MachineController,
@@ -23,7 +24,14 @@
         /* ngInject */
         function MachineController($scope) {
             var vm = this;
-            vm.collapsed = false;  // TODO get from localStorage
+
+            vm.onExpandToggle = function() {
+                if (vm.model.units.length === 0) {
+                    vm.expanded = false;
+                    return;
+                }
+                vm.expanded = !vm.expanded;
+            };
 
             // bind all listeners
             bind([]);

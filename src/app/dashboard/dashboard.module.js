@@ -5,8 +5,6 @@
     angular
         .module('app.dashboard', [
             'app.core',
-            'app.dashboard.layout',
-            'app.dashboard.machine',
-            'app.dashboard.unit'
+            'app.dashboard.layout'
         ]);
 })();

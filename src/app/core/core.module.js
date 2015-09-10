@@ -19,6 +19,7 @@
             'app.services',
 
             // 3rd-party modules
+            'ngDraggable',
             'ui.bootstrap',
             'ui.router'
         ]);
