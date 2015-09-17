@@ -7,7 +7,7 @@
 
     /* @ngInject */
     function DashboardMain($interval, $log, $q, $scope, _, filterService, fleetService) {
-        var MAX_MACHINE_SLOTS = 10;
+        var MAX_MACHINE_SLOTS = 18;
 
         var vm = this;
 
@@ -87,6 +87,10 @@
                 return;
             }
             swapSlots(tgtSlot, srcSlot);
+        };
+
+        vm.slotFilledFilter = function(slot) {
+            return slot && slot.machineId;
         };
 
         function swapSlots(to, from) {
@@ -195,7 +199,7 @@
                     });
             }
             if (vm.machineSlots.length < MAX_MACHINE_SLOTS) {
-                for (var i=vm.machineSlots.length; i<=MAX_MACHINE_SLOTS; i++) {
+                for (var i=vm.machineSlots.length; i<MAX_MACHINE_SLOTS; i++) {
                     vm.machineSlots.push({
                         order: i
                     });

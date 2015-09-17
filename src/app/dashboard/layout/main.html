@@ -4,7 +4,7 @@
             <h1><img src="assets/images/coreos.png"> <span>Fleet Dashboard</span></h1>
             <ul class="nav nav-pills">
                 <li role="presentation" ng-class="{'active': vm.query.view==='machine'}">
-                    <a ng-click="vm.onMachineViewModeClick()">Machines <span class="badge">{{vm.machines.length}}</span></a>
+                    <a ng-click="vm.onMachineViewModeClick()">Machines <span class="badge">{{(vm.machineSlots | filter:vm.slotFilledFilter).length}}</span></a>
                 </li>
                 <li role="presentation" ng-class="{'active': vm.query.view==='unit'}">
                     <a ng-click="vm.onUnitViewModeClick()">Units <span class="badge">{{vm.units.length}}</span></a>
