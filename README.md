@@ -13,8 +13,8 @@ You will need to specify the host and port of your fleet API. The grunt-connect 
 
 The easiest way is to set the variables ```FLEET_HOST``` and ```FLEET_PORT```. The default values are ```localhost``` and ```80``` respectively.
 ```
-    export FLEET_HOST="10.10.10.10"
-    export FLEET_PORT="80"
+    export FLEET_HOST="10.10.2.7"
+    export FLEET_PORT="8080"
     grunt serve
 ```
 
