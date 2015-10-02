@@ -58,9 +58,9 @@
             });
         };
 
-        vm.onUnitMachineClick = function(machine) {
+        vm.onUnitMachineClick = function($event, machine) {
+            $event.stopPropagation();
             filterService.pushState({
-                view: 'machine',
                 keywords: machine.primaryIP
             });
         };
@@ -99,11 +99,13 @@
         };
 
         vm.unitFilter = function(unit) {
-            if (!vm.query.keywords) {
+            var text = vm.query.keywords;
+            if (!text) {
                 return true;
             }
-            return unit.name.indexOf(vm.query.keywords)>=0 ||
-                (unit._timers && unit._timers[0].name.indexOf(vm.query.keywords)>=0);
+            return unit.name.indexOf(text)>=0 || unit.hash.indexOf(text)>=0 ||
+                (unit._timers && unit._timers[0].name.indexOf(text)>=0) ||
+                (unit._machine && (unit._machine.primaryIP.indexOf(text)>=0 || unit._machine.id.indexOf(text)>=0));
         };
 
         vm.onDropComplete = function(tgtSlot, srcSlot) {
@@ -227,6 +229,7 @@
         }
 
         function nameMatch(unit, name) {
+            // TODO maybe this should be based of the "X-Fleet" section's "MachineOf" setting
             return unit.name.split('.').slice(0, -1).join('.') === name.split('.').slice(0, -1).join('.');
         }
 

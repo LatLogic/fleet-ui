@@ -1,6 +1,6 @@
 <div class="dashboard-main">
     <div class="dashboard-header">
-        <div class="container-fluid">
+        <div class="container">
             <h1><img src="assets/images/coreos.png"> <span>Fleet Dashboard</span></h1>
             <ul class="nav nav-pills">
                 <li role="presentation" ng-class="{'active': vm.query.view==='machine'}">
@@ -27,7 +27,7 @@
         </div>
     </div>
     <div class="dashboard-content">
-        <div class="container-fluid">
+        <div class="container">
             <div ng-include="'app/dashboard/layout/view-' + vm.query.view + '.html'"></div>
         </div>
     </div>

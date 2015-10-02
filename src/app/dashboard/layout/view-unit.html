@@ -15,7 +15,7 @@
             <td><i class="{{unit | llUnitIconClass}}"></i></td>
             <td>{{unit.name}}</td>
             <td>{{unit.hash}}</td>
-            <td><a ng-click="vm.onUnitMachineClick(unit._machine)">{{unit._machine.primaryIP}}</a></td>
+            <td><a ng-click="vm.onUnitMachineClick($event, unit._machine)">{{unit._machine.primaryIP}}</a></td>
             <td>
                 <span class="label label-{{unit | llUnitStatusClass}}">{{unit | llUnitSubState}}</span>
                 <span ng-if="unit._timers" class="label label-{{unit._timers[0] | llUnitStatusClass}}"><i class="fa fa-clock-o"></i> {{unit._timers[0] | llUnitSubState}}</span>

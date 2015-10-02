@@ -6,9 +6,13 @@
         .controller('UnitFileDetailController', UnitFileDetailController);
 
     /* @ngInject */
-    function UnitFileDetailController($interval, $modalInstance, $scope, model, fleetService) {
+    function UnitFileDetailController($interval, $log, $modalInstance, $scope, model, fleetService) {
         var vm = this;
         vm.model = model;
+
+        vm.onCloseClick = function() {
+            $modalInstance.dismiss();
+        };
 
         vm.onLoadClick = function() {
             fleetService.loadUnit(vm.model.name);
@@ -27,7 +31,9 @@
         };
 
         // bind all listeners
-        bind([]);
+        bind([
+            initRefreshInterval()
+        ]);
 
         // activate the controller
         activate();
@@ -43,8 +49,15 @@
         }
 
         function activate() {
-            refreshState();
-            $interval(refreshState, 5000);
+            // TODO
+        }
+
+        function initRefreshInterval() {
+            var promise = $interval(refreshState, 5000);
+            return function cancelRefreshInterval() {
+                $log.debug('cancel unit refresh $interval');
+                $interval.cancel(promise);
+            };
         }
 
         function refreshState() {

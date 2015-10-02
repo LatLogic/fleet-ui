@@ -1,7 +1,10 @@
 <div class="modal-header ll-unitFile-detail">
+    <a class="close" ng-click="vm.onCloseClick()"><i class="fa fa-close"></i></a>
     <div class="header">
         <h3><i class="{{vm.model | llUnitFileIconClass}}"></i> {{vm.model.name}}</h3>
-        <div><span class="label label-{{vm.model | llUnitFileStatusClass}}">{{vm.model.currentState}}</span></div>
+        <div class="status">
+            <span class="label label-{{vm.model | llUnitFileStatusClass}}">{{vm.model.currentState}}</span>
+        </div>
     </div>
 </div>
 <div class="modal-body ll-unitFile-detail">

@@ -15,9 +15,15 @@
         &:hover {
           cursor: pointer;
         }
-        & > td:first-child, {
-          text-align: center;
-          width: 3em;
+        & > td {
+          white-space: nowrap;
+          &:first-child {
+            text-align: center;
+            width: 3em;
+          }
+          &:nth-child(2) {
+            min-width: 10em;
+          }
         }
       }
     }
