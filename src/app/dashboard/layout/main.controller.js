@@ -6,7 +6,7 @@
         .controller('DashboardMain', DashboardMain);
 
     /* @ngInject */
-    function DashboardMain($interval, $log, $q, $scope, _, filterService, fleetService) {
+    function DashboardMain($interval, $log, $modal, $q, $scope, _, filterService, fleetService) {
         var MAX_MACHINE_SLOTS = 18;
 
         var vm = this;
@@ -25,6 +25,7 @@
         vm.machines = [];
         vm.machineSlots = [];
         vm.units = [];
+        vm.unitFiles = [];
 
         vm.onKeywordsChange = function() {
             // TODO angular client-side filtering for now
@@ -36,6 +37,12 @@
         vm.onClearKeywordsClick = function() {
             filterService.pushState({
                 keywords: undefined
+            });
+        };
+
+        vm.onUnitFileViewModeClick = function() {
+            filterService.pushState({
+                view: 'unitFile'
             });
         };
 
@@ -58,6 +65,23 @@
             });
         };
 
+        vm.onUnitFileClick = function(file) {
+            var modal = $modal.open({
+                templateUrl: 'app/dashboard/components/unitFile/unitFile-detail.html',
+                controller: 'UnitFileDetailController as vm',
+                size: 'lg',
+                resolve: {
+                    model: function() {
+                        return file;
+                    }
+                }
+            });
+
+            modal.result.then(function() {
+                $log.debug('modal closed');
+            });
+        };
+
         vm.onAutoRefreshClick = function() {
             vm.autoRefresh.enabled = !vm.autoRefresh.enabled;
             registerAutoRefresh();
@@ -68,7 +92,7 @@
                 return true;
             }
             var machine = vm.machines[slot.machineId];
-            var matchingUnits = machine.units.filter(vm.unitFilter);
+            var matchingUnits = machine._units.filter(vm.unitFilter);
             return machine.primaryIP.indexOf(vm.query.keywords)>=0 ||
                 _.values(machine.metadata).join('').indexOf(vm.query.keywords)>=0 ||
                 matchingUnits.length>0;
@@ -79,7 +103,7 @@
                 return true;
             }
             return unit.name.indexOf(vm.query.keywords)>=0 ||
-                (unit.timers && unit.timers[0].name.indexOf(vm.query.keywords)>=0);
+                (unit._timers && unit._timers[0].name.indexOf(vm.query.keywords)>=0);
         };
 
         vm.onDropComplete = function(tgtSlot, srcSlot) {
@@ -123,8 +147,8 @@
         function query() {
             $q.all([
                 fleetService.getMachines(),
-                fleetService.getUnits(),
-                fleetService.getState()
+                fleetService.getUnitFiles(),
+                fleetService.getUnits()
             ]).then(function(responses) {
                 mergeData(responses[0], responses[1], responses[2]);
                 vm.loading = false;
@@ -133,40 +157,33 @@
 
         var queryLazy = _.debounce(query, 1000);
 
-        function mergeData(machines, units, states) {
-            // Build list of units with related machine model
-            vm.units = units
-                .map(function(u) {
+        function mergeData(machines, files, units) {
+            var unitFilesByName = _.indexBy(vm.unitFiles, 'name');
+            var machinesById = _.indexBy(machines, 'id');
 
-                    // Add machine and state information
-                    return angular.extend(u, {
-                        machine: angular.copy(machines)
-                            .filter(function(m) {
-                                return u.machineID === m.id;
-                            })[0],
-                        state: states.filter(function(s) {
-                            return u.name===s.name;
-                        })[0],
-                        options: _.groupBy(u.options, 'section')
-                    });
+            units = units.map(function(state) {
+                return angular.extend(state, {
+                    _file: unitFilesByName[state.name],
+                    _machine: angular.copy(machinesById[state.machineID])
                 });
+            });
 
-            // Combine timers with their corresponding unit
-            var nonTimers = vm.units.filter(function(u) {
+            // Link timers with their corresponding unit
+            var nonTimers = units.filter(function(u) {
                 return !u.name.endsWith('.timer');
             });
-            var timers = vm.units.filter(function(u) {
+            var timers = units.filter(function(u) {
                 return u.name.endsWith('.timer');
             });
 
             // Add timer information if applicable
             vm.units = nonTimers.map(function(u) {
                 var matches = timers.filter(function(t) {
-                    return t.name.split('.').slice(0, -1).join('.') === u.name.split('.').slice(0, -1).join('.');
+                    return nameMatch(t, u.name);
                 });
                 if (matches.length > 0) {
                     return angular.extend(u, {
-                        timers: matches
+                        _timers: matches
                     });
                 }
                 return u;
@@ -175,11 +192,11 @@
             // Build list of machines with related unit model
             var machineList = machines.map(function(m) {
                 return angular.extend(m, {
-                    units: angular.copy(vm.units)
+                    _units: angular.copy(vm.units)
                         .filter(function(u) {
                             return u.machineID === m.id;
                         }).map(function(u) {
-                            delete u.machine;  // remove circular dependency
+                            delete u._machine;  // remove circular dependency
                             return u;
                         })
                 });
@@ -205,11 +222,17 @@
                     });
                 }
             }
+
+            vm.unitFiles = files;
+        }
+
+        function nameMatch(unit, name) {
+            return unit.name.split('.').slice(0, -1).join('.') === name.split('.').slice(0, -1).join('.');
         }
 
         // Sort by most units descending
         function compareMachineIds(a, b) {
-            return vm.machines[b].units.length - vm.machines[a].units.length;
+            return vm.machines[b]._units.length - vm.machines[a]._units.length;
         }
 
         function registerAutoRefresh() {

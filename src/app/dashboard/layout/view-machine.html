@@ -1,0 +1,7 @@
+<div class="columns" ng-if="vm.query.view==='machine'">
+    <div ng-repeat="slot in vm.machineSlots | filter:vm.machineFilter | orderBy:'order' track by slot.order"
+         ng-drop="true" ng-drop-success="vm.onDropComplete(slot, $data)">
+        <ll-machine ng-if="slot.machineId" model="vm.machines[slot.machineId]" expanded="slot.expanded"
+                    ng-drag="true" ng-drag-data="slot"></ll-machine>
+    </div>
+</div>

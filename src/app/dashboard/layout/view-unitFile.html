@@ -1,0 +1,21 @@
+<div class="view-unitFile">
+    <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th>Type</th>
+            <th>Name</th>
+            <th>Desired</th>
+            <th>Current</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="file in vm.unitFiles | filter:vm.query.keywords | orderBy:'name' track by file.name"
+            ng-click="vm.onUnitFileClick(file)">
+            <td><i class="{{file | llUnitFileIconClass}}"></i></td>
+            <td>{{file.name}}</td>
+            <td>{{file.desiredState}}</td>
+            <td><span class="label label-{{file | llUnitFileStatusClass}}">{{file.currentState}}</span></td>
+        </tr>
+        </tbody>
+    </table>
+</div>

@@ -5,8 +5,8 @@
         .module('app.dashboard.unit')
         .filter('llUnitName', llUnitName)
         .filter('llUnitIconClass', llUnitIconClass)
+        .filter('llUnitStatusClass', llUnitStatusClass)
         .filter('llUnitActiveState', llUnitActiveState)
-        .filter('llUnitLoadState', llUnitLoadState)
         .filter('llUnitSubState', llUnitSubState)
     ;
 
@@ -23,7 +23,7 @@
     /* ngInject */
     function llUnitIconClass() {
         return function(unit) {
-            if (angular.isUndefined(unit) || !unit.timers) {
+            if (angular.isUndefined(unit) || !unit._timers) {
                 return 'fa fa-cog';
             }
             return 'fa fa-clock-o';
@@ -31,42 +31,38 @@
     }
 
     /* ngInject */
-    function llUnitActiveState() {
-        return _getStateFilter('systemdActiveState', 'currentState');
+    function llUnitStatusClass() {
+        return function(unit) {
+            if (angular.isUndefined(unit)) {
+                return 'default';
+            }
+
+            switch (unit.systemdActiveState.toLowerCase()) {
+                case 'inactive':
+                    return 'warning';
+                default:
+                case 'active':
+                    return 'success';
+            }
+        };
     }
 
     /* ngInject */
-    function llUnitLoadState() {
-        return _getStateFilter('systemdLoadState', 'currentState');
+    function llUnitActiveState() {
+        return _getStateFilter('systemdActiveState');
     }
 
     /* ngInject */
     function llUnitSubState() {
-        return _getStateFilter('systemdSubState', 'currentState');
+        return _getStateFilter('systemdSubState');
     }
 
-    function _getStateFilter(property, fallbackProperty) {
-        return function(unit, ignoreTimer) {
+    function _getStateFilter(property) {
+        return function(unit) {
             if (angular.isUndefined(unit)) {
-                return undefined;
+                return;
             }
-            if (ignoreTimer || !unit.timers) {
-                return _getStateValue(unit, property) ||
-                    _getValue(unit, fallbackProperty);
-            }
-            return _getStateValue(unit.timers[0], property) ||
-                _getValue(unit.timers[0], fallbackProperty);
+            return unit[property];
         };
-    }
-
-    function _getStateValue(unit, property) {
-        if (angular.isUndefined(unit.state)) {
-            return undefined;
-        }
-        return unit.state[property];
-    }
-
-    function _getValue(unit, property) {
-        return unit[property];
     }
 })();

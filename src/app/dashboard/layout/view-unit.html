@@ -1,0 +1,26 @@
+<div class="view-unit">
+    <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th>Type</th>
+            <th>Name</th>
+            <th>Hash</th>
+            <th>Machine</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="unit in vm.units | filter:vm.unitFilter | orderBy:'name' track by (unit.name+unit.machineID)"
+                ng-click="vm.onUnitFileClick(unit._file)">
+            <td><i class="{{unit | llUnitIconClass}}"></i></td>
+            <td>{{unit.name}}</td>
+            <td>{{unit.hash}}</td>
+            <td><a ng-click="vm.onUnitMachineClick(unit._machine)">{{unit._machine.primaryIP}}</a></td>
+            <td>
+                <span class="label label-{{unit | llUnitStatusClass}}">{{unit | llUnitSubState}}</span>
+                <span ng-if="unit._timers" class="label label-{{unit._timers[0] | llUnitStatusClass}}"><i class="fa fa-clock-o"></i> {{unit._timers[0] | llUnitSubState}}</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

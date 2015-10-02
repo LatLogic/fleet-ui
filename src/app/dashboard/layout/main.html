@@ -9,6 +9,9 @@
                 <li role="presentation" ng-class="{'active': vm.query.view==='unit'}">
                     <a ng-click="vm.onUnitViewModeClick()">Units <span class="badge">{{vm.units.length}}</span></a>
                 </li>
+                <li role="presentation" ng-class="{'active': vm.query.view==='unitFile'}">
+                    <a ng-click="vm.onUnitFileViewModeClick()">Unit Files <span class="badge">{{vm.unitFiles.length}}</span></a>
+                </li>
             </ul>
             <div class="input-group">
                 <input type="text" class="form-control"
@@ -25,22 +28,7 @@
     </div>
     <div class="dashboard-content">
         <div class="container-fluid">
-            <div class="columns" ng-if="vm.query.view==='unit'">
-                <div ng-repeat="u in vm.units | filter:vm.unitFilter | orderBy:'name'">
-                    <div class="unit-container panel panel-default">
-                        <div class="panel-body">
-                            <ll-unit model="u" on-machine-click="vm.onUnitMachineClick(machine)"></ll-unit>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="columns" ng-if="vm.query.view==='machine'">
-                <div ng-repeat="slot in vm.machineSlots | filter:vm.machineFilter | orderBy:'order' track by slot.order"
-                    ng-drop="true" ng-drop-success="vm.onDropComplete(slot, $data)">
-                    <ll-machine ng-if="slot.machineId" model="vm.machines[slot.machineId]" expanded="slot.expanded"
-                                ng-drag="true" ng-drag-data="slot"></ll-machine>
-                </div>
-            </div>
+            <div ng-include="'app/dashboard/layout/view-' + vm.query.view + '.html'"></div>
         </div>
     </div>
 </div>
