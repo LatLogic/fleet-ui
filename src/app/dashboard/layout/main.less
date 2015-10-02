@@ -5,29 +5,34 @@
 .dashboard-main {
     .dashboard-header {
         padding: 10px 0;
-        &>.container {
+        h1 {
+            margin-top: 0;
+            img {
+                height: 40px;
+                width: 40px;
+            }
+            & > * {
+                vertical-align: bottom;
+            }
+        }
+        .toolbar {
+            display: inline-flex;
+            justify-content: space-between;
             white-space: nowrap;
-            h1 {
-                margin-top: 0;
-                img {
-                    height: 40px;
-                    width: 40px;
-                }
-                & > * {
-                    vertical-align: bottom;
-                }
+            & > * {
+                align-self: center;
             }
-            .nav, .input-group, .auto-refresh {
-                display: inline-block;
-                vertical-align: middle;
-            }
-            .input-group {
+            .input-wrapper {
+                position: relative;
                 margin-left: 10px;
-                .form-control {
-                    width: 360px;
+                width: 360px;
+                input {
+                    padding-right: 25px;
                 }
-                .input-group-btn {
-                    width: auto;
+                .clear {
+                    position: absolute;
+                    right: 7px;
+                    top: 7px;
                 }
             }
             .auto-refresh {

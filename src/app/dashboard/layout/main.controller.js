@@ -66,6 +66,7 @@
         };
 
         vm.onUnitFileClick = function(file) {
+            $log.debug('opening details for', file.name);
             var modal = $modal.open({
                 templateUrl: 'app/dashboard/components/unitFile/unitFile-detail.html',
                 controller: 'UnitFileDetailController as vm',
@@ -160,7 +161,7 @@
         var queryLazy = _.debounce(query, 1000);
 
         function mergeData(machines, files, units) {
-            var unitFilesByName = _.indexBy(vm.unitFiles, 'name');
+            var unitFilesByName = _.indexBy(files, 'name');
             var machinesById = _.indexBy(machines, 'id');
 
             units = units.map(function(state) {

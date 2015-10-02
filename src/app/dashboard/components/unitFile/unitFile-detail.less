@@ -2,16 +2,22 @@
     &.modal-header {
         .header {
             display: inline-flex;
+            justify-content: space-between;
             width: 100%;
-            h3 {
+            .info {
                 align-self: center;
-                margin: 15px 0;
+                h3 {
+                    margin: 15px 0;
+                    .label {
+                        margin-left: 15px;
+                        font-size: 80%;
+                    }
+                }
             }
-            .status {
+            .toolbar {
                 align-self: center;
-                margin-left: 30px;
-                .label {
-                    font-size: 120%;
+                .btn-group {
+                    margin-right: 15px;
                 }
             }
         }
@@ -22,13 +28,6 @@
         }
     }
     &.modal-body {
-        .toolbar {
-            margin-bottom: 15px;
-            width: 100%;
-            .btn-group {
-                margin-right: 15px;
-            }
-        }
         .table {
             cursor: text;
             font-family: 'Consolas', monospace;

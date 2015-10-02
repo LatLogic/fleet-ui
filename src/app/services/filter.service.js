@@ -9,7 +9,7 @@
     function filterService($log, $rootScope, $state, $stateParams) {
         var FILTER_KEY = 'filter.change';
         var DEFAULT_STATE = {
-            view: 'machine'
+            view: 'unit'
         };
 
         // Listen for location changes

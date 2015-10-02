@@ -49,7 +49,7 @@
         }
 
         function activate() {
-            // TODO
+            refreshState();
         }
 
         function initRefreshInterval() {
