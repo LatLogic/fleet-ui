@@ -9,9 +9,6 @@
     }
     & > tbody {
       & > tr {
-        .label {
-          font-size: 90%;
-        }
         &:hover {
           cursor: pointer;
         }
@@ -23,6 +20,18 @@
           }
           &:nth-child(2) {
             min-width: 10em;
+          }
+          &:last-child {
+            width: 12em;
+          }
+          .status-wrapper {
+            display: inline-flex;
+            width: 100%;
+            .label {
+              display: block;
+              flex: 1;
+              font-size: 90%;
+            }
           }
         }
       }
