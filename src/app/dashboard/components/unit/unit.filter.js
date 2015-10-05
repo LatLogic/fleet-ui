@@ -8,6 +8,8 @@
         .filter('llUnitStatusClass', llUnitStatusClass)
         .filter('llUnitActiveState', llUnitActiveState)
         .filter('llUnitSubState', llUnitSubState)
+        .filter('llUnitFileIconClass', llUnitFileIconClass)
+        .filter('llUnitFileStatusClass', llUnitFileStatusClass)
     ;
 
     /* ngInject */
@@ -55,6 +57,36 @@
     /* ngInject */
     function llUnitSubState() {
         return _getStateFilter('systemdSubState');
+    }
+
+    /* ngInject */
+    function llUnitFileIconClass() {
+        return function(file) {
+            if (angular.isUndefined(file) || !file.name.endsWith('.timer')) {
+                return 'fa fa-cog';
+            }
+            return 'fa fa-clock-o';
+        };
+    }
+
+    /* ngInject */
+    function llUnitFileStatusClass() {
+        return function (file) {
+            if (angular.isUndefined(file)) {
+                return 'default';
+            }
+
+            var state = file.currentState || file.desiredState;
+            switch (state.toLowerCase()) {
+                case 'inactive':
+                    return 'warning';
+                case 'launched':
+                    return 'success';
+                default:
+                case 'loaded':
+                    return 'default';
+            }
+        };
     }
 
     function _getStateFilter(property) {
