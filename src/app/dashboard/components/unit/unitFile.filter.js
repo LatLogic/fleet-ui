@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app.dashboard.unitFile')
+        .module('app.dashboard.unit')
         .filter('llUnitFileIconClass', llUnitFileIconClass)
         .filter('llUnitFileStatusClass', llUnitFileStatusClass)
     ;
@@ -24,7 +24,8 @@
                 return 'default';
             }
 
-            switch (file.currentState.toLowerCase()) {
+            var state = file.currentState || file.desiredState;
+            switch (state.toLowerCase()) {
                 case 'inactive':
                     return 'warning';
                 case 'launched':

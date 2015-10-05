@@ -6,7 +6,7 @@
         .controller('DashboardMain', DashboardMain);
 
     /* @ngInject */
-    function DashboardMain($interval, $log, $modal, $q, $scope, _, filterService, fleetService) {
+    function DashboardMain($interval, $log, $modal, $q, $scope, _, appConfig, filterService, fleetService) {
         var MAX_MACHINE_SLOTS = 18;
 
         var vm = this;
@@ -18,7 +18,7 @@
         vm.loading = false;
         vm.autoRefresh = {
             enabled: true,
-            delay: 15000
+            delay: appConfig.UNIT_REFRESH_DELAY
         };
 
         // view data
@@ -68,7 +68,7 @@
         vm.onUnitFileClick = function(file) {
             $log.debug('opening details for', file.name);
             var modal = $modal.open({
-                templateUrl: 'app/dashboard/components/unitFile/unitFile-detail.html',
+                templateUrl: 'app/dashboard/components/unit/unitFile-detail.html',
                 controller: 'UnitFileDetailController as vm',
                 size: 'lg',
                 resolve: {

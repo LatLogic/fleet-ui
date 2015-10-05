@@ -2,11 +2,11 @@
     'use strict';
 
     angular
-        .module('app.dashboard.unitFile')
+        .module('app.dashboard.unit')
         .controller('UnitFileDetailController', UnitFileDetailController);
 
     /* @ngInject */
-    function UnitFileDetailController($interval, $log, $modalInstance, $scope, model, fleetService) {
+    function UnitFileDetailController($interval, $log, $modalInstance, $scope, appConfig, model, fleetService) {
         var vm = this;
         vm.model = model;
 
@@ -53,7 +53,7 @@
         }
 
         function initRefreshInterval() {
-            var promise = $interval(refreshState, 5000);
+            var promise = $interval(refreshState, appConfig.UNIT_REFRESH_DELAY);
             return function cancelRefreshInterval() {
                 $log.debug('cancel unit refresh $interval');
                 $interval.cancel(promise);

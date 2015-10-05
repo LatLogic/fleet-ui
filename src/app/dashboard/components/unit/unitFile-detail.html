@@ -2,7 +2,7 @@
     <a class="close" ng-click="vm.onCloseClick()"><i class="fa fa-close"></i></a>
     <div class="header">
         <div class="info">
-            <h3><i class="{{vm.model | llUnitFileIconClass}}"></i> {{vm.model.name}} <span class="label label-{{vm.model | llUnitFileStatusClass}}">{{vm.model.currentState}}</span></h3>
+            <h3><i class="{{vm.model | llUnitFileIconClass}}"></i> {{vm.model.name}} <span class="label label-{{vm.model | llUnitFileStatusClass}}">{{vm.model.currentState || vm.model.desiredState}}</span></h3>
         </div>
         <div class="toolbar">
             <div class="btn-group" role="group">

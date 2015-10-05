@@ -6,7 +6,6 @@
         .module('app.dashboard.layout', [
             'app.core',
             'app.dashboard.machine',
-            'app.dashboard.unit',
-            'app.dashboard.unitFile'
+            'app.dashboard.unit'
         ]);
 })();
