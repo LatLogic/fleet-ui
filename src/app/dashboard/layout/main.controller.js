@@ -64,10 +64,11 @@
         };
 
         vm.onUnitFileClick = function(file, timerFile) {
-            $log.debug('opening details for', file.name);
+            $log.debug('opening modal for', file.name);
             var modal = $modal.open({
-                templateUrl: 'app/dashboard/components/unit/unitFile-detail.html',
-                controller: 'UnitFileDetailController as vm',
+                templateUrl: 'app/dashboard/components/unit/unit-file-modal.html',
+                controller: 'UnitFileModalController as vm',
+                windowClass: 'll-unit-file-modal',
                 size: 'lg',
                 resolve: {
                     model: function() {

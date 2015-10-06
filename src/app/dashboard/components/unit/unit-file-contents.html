@@ -1,0 +1,17 @@
+<div class="ll-unit-file-contents">
+    <div ng-repeat="section in vm.model._sections | llObjectKeys">
+        <table class="table">
+            <thead>
+            <tr>
+                <td colspan="2"><strong>[{{section}}]</strong></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="option in vm.model._sections[section]">
+                <td>{{option.name}}</td>
+                <td>{{option.value}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

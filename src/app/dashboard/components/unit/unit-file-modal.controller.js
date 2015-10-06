@@ -3,31 +3,17 @@
 
     angular
         .module('app.dashboard.unit')
-        .controller('UnitFileDetailController', UnitFileDetailController);
+        .controller('UnitFileModalController', UnitFileModalController);
 
     /* @ngInject */
-    function UnitFileDetailController($interval, $log, $modalInstance, $scope, appConfig, model, fleetService) {
+    function UnitFileModalController($interval, $log, $modalInstance, $scope, appConfig, model, timerModel, fleetService) {
         var vm = this;
         vm.model = model;
+        vm.timerModel = timerModel;
+        vm.current = vm.model;
 
         vm.onCloseClick = function() {
             $modalInstance.dismiss();
-        };
-
-        vm.onLoadClick = function() {
-            fleetService.loadUnit(vm.model.name);
-        };
-
-        vm.onUnloadClick = function() {
-            fleetService.unloadUnit(vm.model.name);
-        };
-
-        vm.onStartClick = function() {
-            fleetService.startUnit(vm.model.name);
-        };
-
-        vm.onStopClick = function() {
-            fleetService.stopUnit(vm.model.name);
         };
 
         // bind all listeners
@@ -63,7 +49,14 @@
         function refreshState() {
             fleetService.getUnitFile(vm.model.name)
                 .then(function(unit) {
-                    vm.model = unit;
+
+                    // Update the model as well as current view
+                    if (vm.model.name === vm.current.name) {
+                        vm.current = vm.model = unit;
+                    } else {
+                        vm.model = unit;
+                        vm.current = unit._timers[0];
+                    }
                 });
         }
     }

@@ -1,5 +1,5 @@
 <div class="view-unit">
-    <table class="table table-condensed">
+    <table class="table table-condensed table-hover">
         <thead>
         <tr>
             <th>Type</th>
@@ -11,7 +11,7 @@
         </thead>
         <tbody>
         <tr ng-repeat="unit in vm.units | filter:vm.unitFilter | orderBy:'name' track by (unit.name+unit.machineID)"
-                ng-click="vm.onUnitFileClick(unit._file)">
+                ng-click="vm.onUnitFileClick(unit._file, unit._timers[0]._file)">
             <td><i class="{{unit | llUnitIconClass}}"></i></td>
             <td>{{unit.name}}</td>
             <td>{{unit.hash}}</td>
