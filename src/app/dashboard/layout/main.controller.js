@@ -150,90 +150,35 @@
         }
 
         function query() {
-            $q.all([
-                fleetService.getMachines(),
-                fleetService.getUnitFiles(),
-                fleetService.getUnits()
-            ]).then(function(responses) {
-                mergeData(responses[0], responses[1], responses[2]);
-                vm.loading = false;
-            });
+            fleetService.queryFleetApi()
+                .then(function(data) {
+                    vm.machines = data.machines;
+                    vm.unitFiles = data.unitFiles;
+                    vm.units = data.units;
+
+                    if (vm.machineSlots.length === 0) {
+                        vm.machineSlots = Object.keys(vm.machines)
+                            .sort(compareMachineIds)
+                            .map(function(id, index) {
+                                return {
+                                    order: index,
+                                    machineId: id
+                                };
+                            });
+                    }
+                    if (vm.machineSlots.length < appConfig.MAX_MACHINE_SLOTS) {
+                        for (var i=vm.machineSlots.length; i<appConfig.MAX_MACHINE_SLOTS; i++) {
+                            vm.machineSlots.push({
+                                order: i
+                            });
+                        }
+                    }
+
+                    vm.loading = false;
+                });
         }
 
         var queryLazy = _.debounce(query, 1000);
-
-        function mergeData(machines, files, units) {
-            var unitFilesByName = _.indexBy(files, 'name');
-            var machinesById = _.indexBy(machines, 'id');
-
-            units = units.map(function(state) {
-                return angular.extend(state, {
-                    _file: unitFilesByName[state.name],
-                    _machine: angular.copy(machinesById[state.machineID])
-                });
-            });
-
-            // Link timers with their corresponding unit
-            var nonTimers = units.filter(function(u) {
-                return !appConfig.IS_TIMER(u.name);
-            });
-            var timers = units.filter(function(u) {
-                return appConfig.IS_TIMER(u.name);
-            });
-
-            // Add timer information if applicable
-            vm.units = nonTimers.map(function(u) {
-                var matches = timers.filter(function(t) {
-                    return nameMatch(t, u.name);
-                });
-                if (matches.length > 0) {
-                    return angular.extend(u, {
-                        _timers: matches
-                    });
-                }
-                return u;
-            });
-
-            // Build list of machines with related unit model
-            var machineList = machines.map(function(m) {
-                return angular.extend(m, {
-                    _units: angular.copy(vm.units)
-                        .filter(function(u) {
-                            return u.machineID === m.id;
-                        }).map(function(u) {
-                            delete u._machine;  // remove circular dependency
-                            return u;
-                        })
-                });
-            });
-
-            // Index by machine ID
-            vm.machines = _.indexBy(machineList, 'id');
-
-            if (vm.machineSlots.length === 0) {
-                vm.machineSlots = Object.keys(vm.machines)
-                    .sort(compareMachineIds)
-                    .map(function(id, index) {
-                        return {
-                            order: index,
-                            machineId: id
-                        };
-                    });
-            }
-            if (vm.machineSlots.length < appConfig.MAX_MACHINE_SLOTS) {
-                for (var i=vm.machineSlots.length; i<appConfig.MAX_MACHINE_SLOTS; i++) {
-                    vm.machineSlots.push({
-                        order: i
-                    });
-                }
-            }
-
-            vm.unitFiles = files;
-        }
-
-        function nameMatch(unit, name) {
-            return appConfig.IS_PAIRED(unit.name, name);
-        }
 
         // Sort by most units descending
         function compareMachineIds(a, b) {

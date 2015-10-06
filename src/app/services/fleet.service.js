@@ -6,18 +6,95 @@
         .factory('fleetService', fleetService);
 
     /* ngInject */
-    function fleetService($http, $log) {
+    function fleetService($http, $log, $q, $rootScope, _, appConfig) {
+        var EVENT_KEY = "fleet.change";
 
         return {
-            getMachines: getMachines,
+            addChangeListener: addChangeListener,
+            queryFleetApi: queryFleetApi,
             getUnitFile: getUnitFile,
-            getUnitFiles: getUnitFiles,
-            getUnits: getUnits,
             loadUnit: loadUnit,
             unloadUnit: unloadUnit,
             startUnit: startUnit,
             stopUnit: stopUnit
         };
+
+        function addChangeListener(listener) {
+            return $rootScope.$on(EVENT_KEY, function(event, data) {
+                listener(data);
+            });
+        }
+
+        function queryFleetApi() {
+            return $q.all([
+                getMachines(),
+                getUnitFiles(),
+                getUnits()
+            ]).then(function(responses) {
+                var data = _mergeData(responses[0], responses[1], responses[2]);
+                _fireChangeEvent(data);
+                return data;
+            });
+        }
+
+        function _mergeData(machines, files, units) {
+            var unitFilesByName = _.indexBy(files, 'name');
+            var machinesById = _.indexBy(machines, 'id');
+
+            // The data return object
+            var data = {
+                unitFiles: files
+            };
+
+            units = units.map(function(state) {
+                return angular.extend(state, {
+                    _file: unitFilesByName[state.name],
+                    _machine: angular.copy(machinesById[state.machineID])
+                });
+            });
+
+            // Link timers with their corresponding unit
+            var nonTimers = units.filter(function(u) {
+                return !appConfig.IS_TIMER(u.name);
+            });
+            var timers = units.filter(function(u) {
+                return appConfig.IS_TIMER(u.name);
+            });
+
+            // Add timer information if applicable
+            data.units = nonTimers.map(function(u) {
+                var matches = timers.filter(function(t) {
+                    return appConfig.IS_PAIRED(t.name, u.name);
+                });
+                if (matches.length > 0) {
+                    return angular.extend(u, {
+                        _timers: matches
+                    });
+                }
+                return u;
+            });
+
+            // Build list of machines with related unit model
+            var machineList = machines.map(function(m) {
+                return angular.extend(m, {
+                    _units: angular.copy(data.units)
+                        .filter(function(u) {
+                            return u.machineID === m.id;
+                        }).map(function(u) {
+                            delete u._machine;  // remove circular dependency
+                            return u;
+                        })
+                });
+            });
+
+            // Index by machine ID
+            data.machines = _.indexBy(machineList, 'id');
+            return data;
+        }
+
+        function _fireChangeEvent(data) {
+            $rootScope.$emit(EVENT_KEY, data);
+        }
 
         function getMachines() {
             return $http({
