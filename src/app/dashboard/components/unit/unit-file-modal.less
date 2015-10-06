@@ -1,3 +1,5 @@
+@import "../../../../assets/less/overrides.less";
+
 .ll-unit-file-modal {
     .modal-header {
         h3 {
@@ -7,6 +9,24 @@
             position: absolute;
             right: 5px;
             top: 5px;
+        }
+        .ll-unit-file-control {
+            text-align: right;
+        }
+    }
+    .modal-body {
+        .tabs-left {
+            & > .nav-tabs {
+                margin-right: 0;
+                & > li > a {
+                    min-width: 33px;
+                }
+            }
+            .tab-content {
+                border-left: 1px solid @nav-tabs-border-color;
+                margin-left: 43px;
+                padding: 0 10px;
+            }
         }
     }
 }

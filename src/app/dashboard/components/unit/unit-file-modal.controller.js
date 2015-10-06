@@ -55,7 +55,7 @@
                         vm.current = vm.model = unit;
                     } else {
                         vm.model = unit;
-                        vm.current = unit._timers[0];
+                        vm.current = vm.timerModel;
                     }
                 });
         }

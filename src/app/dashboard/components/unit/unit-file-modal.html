@@ -2,11 +2,18 @@
     <a class="close" ng-click="vm.onCloseClick()"><i class="fa fa-close"></i></a>
     <h3>{{vm.model.name | llUnitName}}</h3>
 </div>
-<div class="modal-body">
-    <div>
-        <a class="btn btn-link" ng-click="vm.current=vm.model"><i class="{{vm.model | llUnitFileIconClass}}"></i></a>
-        <a class="btn btn-link" ng-if="vm.timerModel" ng-click="vm.current=vm.timerModel"><i class="{{vm.timerModel | llUnitFileIconClass}}"></i></a>
-    </div>
+<div class="modal-header">
     <ll-unit-file-control model="vm.current"></ll-unit-file-control>
-    <ll-unit-file-contents model="vm.current"></ll-unit-file-contents>
+</div>
+<div class="modal-body">
+    <tabset class="tabs-left">
+        <tab select="vm.current=vm.model">
+            <tab-heading><i class="{{vm.model | llUnitFileIconClass}}"></i></tab-heading>
+            <ll-unit-file-contents model="vm.model"></ll-unit-file-contents>
+        </tab>
+        <tab ng-if="vm.timerModel" select="vm.current=vm.timerModel">
+            <tab-heading><i class="{{vm.timerModel | llUnitFileIconClass}}"></i></tab-heading>
+            <ll-unit-file-contents model="vm.timerModel"></ll-unit-file-contents>
+        </tab>
+    </tabset>
 </div>

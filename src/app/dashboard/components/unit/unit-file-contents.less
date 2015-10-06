@@ -1,13 +1,19 @@
 .ll-unit-file-contents {
-  .table {
-    cursor: text;
-    font-family: 'Consolas', monospace;
-    tbody {
-      tr {
-        td:first-child {
-          width: 25%;
+    .table {
+        cursor: text;
+        font-family: 'Consolas', monospace;
+        tbody {
+            tr {
+                td {
+                    border: 0;
+                    &:first-child {
+                        width: 25%;
+                    }
+                }
+            }
         }
-      }
+        &:last-child {
+            margin: 0;
+        }
     }
-  }
 }
