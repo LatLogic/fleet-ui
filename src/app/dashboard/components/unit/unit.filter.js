@@ -60,9 +60,9 @@
     }
 
     /* ngInject */
-    function llUnitFileIconClass() {
+    function llUnitFileIconClass(appConfig) {
         return function(file) {
-            if (angular.isUndefined(file) || !file.name.endsWith('.timer')) {
+            if (angular.isUndefined(file) || !appConfig.IS_TIMER(file.name)) {
                 return 'fa fa-cog';
             }
             return 'fa fa-clock-o';
@@ -76,8 +76,11 @@
                 return 'default';
             }
 
-            var state = file.currentState || file.desiredState;
-            switch (state.toLowerCase()) {
+            if (!file.currentState) {
+                return 'info';
+            }
+
+            switch (file.currentState.toLowerCase()) {
                 case 'inactive':
                     return 'warning';
                 case 'launched':

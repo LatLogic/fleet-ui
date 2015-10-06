@@ -7,8 +7,6 @@
 
     /* @ngInject */
     function DashboardMain($interval, $log, $modal, $q, $scope, _, appConfig, filterService, fleetService) {
-        var MAX_MACHINE_SLOTS = 18;
-
         var vm = this;
 
         // query
@@ -65,7 +63,7 @@
             });
         };
 
-        vm.onUnitFileClick = function(file) {
+        vm.onUnitFileClick = function(file, timerFile) {
             $log.debug('opening details for', file.name);
             var modal = $modal.open({
                 templateUrl: 'app/dashboard/components/unit/unitFile-detail.html',
@@ -74,6 +72,9 @@
                 resolve: {
                     model: function() {
                         return file;
+                    },
+                    timerModel: function() {
+                        return timerFile;
                     }
                 }
             });
@@ -173,10 +174,10 @@
 
             // Link timers with their corresponding unit
             var nonTimers = units.filter(function(u) {
-                return !u.name.endsWith('.timer');
+                return !appConfig.IS_TIMER(u.name);
             });
             var timers = units.filter(function(u) {
-                return u.name.endsWith('.timer');
+                return appConfig.IS_TIMER(u.name);
             });
 
             // Add timer information if applicable
@@ -218,8 +219,8 @@
                         };
                     });
             }
-            if (vm.machineSlots.length < MAX_MACHINE_SLOTS) {
-                for (var i=vm.machineSlots.length; i<MAX_MACHINE_SLOTS; i++) {
+            if (vm.machineSlots.length < appConfig.MAX_MACHINE_SLOTS) {
+                for (var i=vm.machineSlots.length; i<appConfig.MAX_MACHINE_SLOTS; i++) {
                     vm.machineSlots.push({
                         order: i
                     });
@@ -230,8 +231,7 @@
         }
 
         function nameMatch(unit, name) {
-            // TODO maybe this should be based of the "X-Fleet" section's "MachineOf" setting
-            return unit.name.split('.').slice(0, -1).join('.') === name.split('.').slice(0, -1).join('.');
+            return appConfig.IS_PAIRED(unit.name, name);
         }
 
         // Sort by most units descending
