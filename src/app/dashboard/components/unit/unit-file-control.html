@@ -1,10 +1,18 @@
 <div class="ll-unit-file-control">
-    <div class="btn-group" role="group">
+    <div class="btn-group" role="group" ng-if="!vm.editing">
         <button type="button" class="btn btn-default" ng-click="vm.onLoadClick()"><i class="fa fa-arrow-circle-o-up"></i> Load</button>
         <button type="button" class="btn btn-default" ng-click="vm.onUnloadClick()"><i class="fa fa-arrow-circle-o-down"></i> Unload</button>
     </div>
-    <div class="btn-group" role="group">
+    <div class="btn-group" role="group" ng-if="!vm.editing">
         <button type="button" class="btn btn-success" ng-click="vm.onStartClick()"><i class="fa fa-play"></i> Start</button>
         <button type="button" class="btn btn-danger" ng-click="vm.onStopClick()"><i class="fa fa-stop"></i> Stop</button>
+    </div>
+    <div class="btn-group" role="group" ng-if="!vm.editing">
+        <a type="button" ng-if="!vm.editing" ng-click="vm.onEditClick()" class="btn btn-info"><i class="fa fa-edit"></i> Edit</a>
+    </div>
+    <div class="alert alert-info" ng-if="vm.editing">
+        <span>You are currently editing <strong>{{vm.model.name}}</strong><span>
+        <a ng-click="vm.onSaveClick()" class="btn btn-link">Save</a>
+        <a ng-click="vm.onCancelClick()" class="btn btn-link">Cancel</i></a>
     </div>
 </div>

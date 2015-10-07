@@ -12,7 +12,11 @@
             replace: true,
             templateUrl: 'app/dashboard/components/unit/unit-file-control.html',
             scope: {
-                model: '='
+                model: '=',
+                editing: '=',
+                onEditClick: '&',
+                onSaveClick: '&',
+                onCancelClick: '&'
             },
             controller: UnitFileControlController,
             controllerAs: 'vm',

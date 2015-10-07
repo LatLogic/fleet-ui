@@ -6,6 +6,7 @@
             tr {
                 td {
                     border: 0;
+                    line-height: 34px;  // match inputs for editing mode
                     // Note: seems to be lag in hiding the input using ng-if so also hide via CSS rules
                     .form-control {
                         display: none;
@@ -24,9 +25,6 @@
         tbody > tr > td {
             .form-control {
                 display: block;
-            }
-            &:first-child {
-                line-height: 34px;
             }
         }
     }
