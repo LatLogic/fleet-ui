@@ -4,8 +4,8 @@
         <tr>
             <th>Type</th>
             <th>Name</th>
-            <th>Desired</th>
-            <th>Current</th>
+            <th>Desired State</th>
+            <th>Actual State</th>
         </tr>
         </thead>
         <tbody>
@@ -13,7 +13,7 @@
             ng-click="vm.onUnitFileClick(file)">
             <td><i class="{{file | llUnitFileIconClass}}"></i></td>
             <td>{{file.name}}</td>
-            <td>{{file.desiredState}}</td>
+            <td ng-class="{mismatch: file.desiredState !== file.currentState}">{{file.desiredState}}</td>
             <td><span class="label label-{{file | llUnitFileStatusClass}}">{{file.currentState}}</span></td>
         </tr>
         </tbody>

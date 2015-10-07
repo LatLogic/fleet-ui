@@ -1,32 +1,37 @@
+@import "../../../assets/less/overrides.less";
+
 .view-unitFile {
-  .table {
-    & > thead {
-      & > tr {
-        & > th:first-child {
-          width: 3em;
+    .table {
+        & > thead {
+            & > tr {
+                & > th:first-child {
+                    width: 3em;
+                }
+            }
         }
-      }
+        & > tbody {
+            & > tr {
+                &:hover {
+                    cursor: pointer;
+                }
+                & > td {
+                    &:first-child, {
+                        text-align: center;
+                        width: 3em;
+                    }
+                    &:last-child, {
+                        width: 10em;
+                    }
+                    &.mismatch {
+                        color: @brand-danger;
+                    }
+                    .label {
+                        border-radius: 0;
+                        display: block;
+                        font-size: 90%;
+                    }
+                }
+            }
+        }
     }
-    & > tbody {
-      & > tr {
-        &:hover {
-          cursor: pointer;
-        }
-        & > td {
-          &:first-child, {
-            text-align: center;
-            width: 3em;
-          }
-          &:last-child, {
-            width: 10em;
-          }
-          .label {
-            border-radius: 0;
-            display: block;
-            font-size: 90%;
-          }
-        }
-      }
-    }
-  }
 }

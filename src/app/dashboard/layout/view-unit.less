@@ -1,41 +1,41 @@
 .view-unit {
-  .table {
-    & > thead {
-      & > tr {
-        & > th:first-child {
-          width: 3em;
-        }
-      }
-    }
-    & > tbody {
-      & > tr {
-        &:hover {
-          cursor: pointer;
-        }
-        & > td {
-          white-space: nowrap;
-          &:first-child {
-            text-align: center;
-            width: 3em;
-          }
-          &:nth-child(2) {
-            min-width: 10em;
-          }
-          &:last-child {
-            width: 12em;
-          }
-          .status-wrapper {
-            display: inline-flex;
-            width: 100%;
-            .label {
-              border-radius: 0;
-              display: block;
-              flex: 1;
-              font-size: 90%;
+    .table {
+        & > thead {
+            & > tr {
+                & > th:first-child {
+                    width: 3em;
+                }
             }
-          }
         }
-      }
+        & > tbody {
+            & > tr {
+                &:hover {
+                    cursor: pointer;
+                }
+                & > td {
+                    white-space: nowrap;
+                    &:first-child {
+                        text-align: center;
+                        width: 3em;
+                    }
+                    &:nth-child(2) {
+                        min-width: 10em;
+                    }
+                    &:last-child {
+                        width: 12em;
+                    }
+                    .status-wrapper {
+                        display: inline-flex;
+                        width: 100%;
+                        .label {
+                            border-radius: 0;
+                            display: block;
+                            flex: 1;
+                            font-size: 90%;
+                        }
+                    }
+                }
+            }
+        }
     }
-  }
 }
