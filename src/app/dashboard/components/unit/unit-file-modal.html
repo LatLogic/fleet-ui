@@ -1,22 +1,31 @@
 <div class="modal-header">
     <a class="close" ng-click="vm.onCloseClick()"><i class="fa fa-close"></i></a>
-    <h3>
-        {{vm.model.name | llUnitName}}
+    <h1 class="modal-title">
+        {{::vm.model.name | llUnitName}}
         <span class="label label-{{vm.current | llUnitFileStatusClass}}">{{vm.current.currentState || 'multiple'}}</span>
-    </h3>
+    </h1>
 </div>
 <div class="modal-header">
     <ll-unit-file-control model="vm.current"></ll-unit-file-control>
 </div>
 <div class="modal-body">
-    <tabset class="tabs-left">
-        <tab select="vm.current=vm.model">
-            <tab-heading><i class="{{vm.model | llUnitFileIconClass}}"></i></tab-heading>
-            <ll-unit-file-contents model="vm.model"></ll-unit-file-contents>
-        </tab>
-        <tab ng-if="vm.timerModel" select="vm.current=vm.timerModel">
-            <tab-heading><i class="{{vm.timerModel | llUnitFileIconClass}}"></i></tab-heading>
-            <ll-unit-file-contents model="vm.timerModel"></ll-unit-file-contents>
-        </tab>
-    </tabset>
+    <div class="wrapper">
+        <div class="toolbar">
+            <a ng-hide="vm.editing" ng-click="vm.onEditClick()" class="btn btn-info btn-sm edit"><i class="glyphicon glyphicon-edit" tooltip="Edit unit file" tooltip-append-to-body="true"></i></a>
+            <div class="btn-group" role="group" ng-show="vm.editing">
+                <button type="button" ng-click="vm.onSaveClick()" class="btn btn-success btn-sm save"><i class="glyphicon glyphicon-check" tooltip="Save changes" tooltip-append-to-body="true"></i></button>
+                <button type="button" ng-click="vm.onCancelClick()" class="btn btn-danger btn-sm cancel"><i class="glyphicon glyphicon-ban-circle" tooltip="Cancel changes" tooltip-append-to-body="true"></i></button>
+            </div>
+        </div>
+        <tabset class="tabs-left">
+            <tab select="vm.current=vm.model">
+                <tab-heading tooltip="Service" tooltip-placement="right"><i class="{{vm.model | llUnitFileIconClass}}"></i></tab-heading>
+                <ll-unit-file-contents model="vm.model" editing="vm.editing"></ll-unit-file-contents>
+            </tab>
+            <tab ng-if="vm.timerModel" select="vm.current=vm.timerModel">
+                <tab-heading tooltip="Timer" tooltip-placement="right"><i class="{{vm.timerModel | llUnitFileIconClass}}"></i></tab-heading>
+                <ll-unit-file-contents model="vm.timerModel" editing="vm.editing"></ll-unit-file-contents>
+            </tab>
+        </tabset>
+    </div>
 </div>

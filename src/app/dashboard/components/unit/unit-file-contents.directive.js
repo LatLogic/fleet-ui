@@ -12,7 +12,8 @@
             replace: true,
             templateUrl: 'app/dashboard/components/unit/unit-file-contents.html',
             scope: {
-                model: '='
+                model: '=',
+                editing: '='
             },
             controller: UnitFileContentsController,
             controllerAs: 'vm',
@@ -21,8 +22,13 @@
         };
 
         /* ngInject */
-        function UnitFileContentsController($scope) {
+        function UnitFileContentsController($log, $scope) {
             var vm = this;
+
+            vm.onFormChange = function() {
+                // TODO validate
+                $log.debug('form changed', vm.model._sections);
+            };
 
             // bind all listeners
             bind([]);

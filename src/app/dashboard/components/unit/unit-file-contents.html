@@ -1,6 +1,6 @@
-<div class="ll-unit-file-contents">
+<div class="ll-unit-file-contents" ng-class="{editing: vm.editing}">
     <div ng-repeat="section in vm.model._sections | llObjectKeys">
-        <table class="table table-condensed table-hover">
+        <table class="table table-condensed">
             <thead>
             <tr>
                 <td colspan="2"><strong>[{{section}}]</strong></td>
@@ -9,7 +9,11 @@
             <tbody>
             <tr ng-repeat="option in vm.model._sections[section]">
                 <td>{{option.name}}</td>
-                <td>{{option.value}}</td>
+                <td>
+                    <span ng-if="!vm.editing">{{option.value}}</span>
+                    <input ng-if="vm.editing" class="form-control" type="text"
+                           ng-model="option.value" ng-model-options="{debounce: 500}" ng-change="vm.onFormChange()">
+                </td>
             </tr>
             </tbody>
         </table>

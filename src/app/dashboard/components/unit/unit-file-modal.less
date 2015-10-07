@@ -2,11 +2,12 @@
 
 .ll-unit-file-modal {
     .modal-header {
-        h3 {
+        .modal-title {
             margin: 0;
             .label {
+                font-size: 60%;
                 margin-left: 15px;
-                font-size: 80%;
+                vertical-align: middle;
             }
         }
         .close {
@@ -16,17 +17,39 @@
         }
     }
     .modal-body {
-        .tabs-left {
-            & > .nav-tabs {
-                margin-right: 0;
-                & > li > a {
-                    min-width: 33px;
+        .wrapper {
+            position: relative;
+            .toolbar {
+                position: absolute;
+                right: 0;
+                top: 0;
+                z-index: 1;
+                .edit {
+                    display: none;
                 }
             }
-            .tab-content {
-                border-left: 1px solid @nav-tabs-border-color;
-                margin-left: 43px;
-                padding: 0 10px;
+            .tabs-left {
+                & > .nav-tabs {
+                    margin-right: 0;
+                    & > li > a {
+                        min-width: 33px;
+                    }
+                }
+                .tab-content {
+                    border-left: 1px solid @nav-tabs-border-color;
+                    margin-left: 43px;
+                    padding: 0 10px;
+                    .ll-unit-file-contents {
+                        min-height: 400px;
+                    }
+                }
+            }
+            &:hover {
+                .toolbar {
+                    .edit {
+                        display: block;
+                    }
+                }
             }
         }
     }

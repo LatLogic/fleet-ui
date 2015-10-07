@@ -12,14 +12,30 @@
         vm.timerModel = timerModel;
         vm.current = vm.model;
 
+        vm.editing = false;
+
+        vm.onEditClick = function() {
+            vm.editing = true;
+        };
+
+        vm.onSaveClick = function() {
+            // TODO persist
+            vm.editing = false;
+        };
+
+        vm.onCancelClick = function() {
+            cancelEdits();
+        };
+
         vm.onCloseClick = function() {
+            cancelEdits();
             $modalInstance.dismiss();
         };
 
         // bind all listeners
         bind([
-            fleetService.addChangeListener(onDataChange)
-            //initRefreshInterval()
+            fleetService.addChangeListener(onDataChange),
+            initRefreshInterval()
         ]);
 
         // activate the controller
@@ -36,10 +52,19 @@
         }
 
         function activate() {
-            //refreshState();
+            refreshState();
+        }
+
+        function cancelEdits() {
+            // TODO revert
+            vm.editing = false;
         }
 
         function onDataChange(data) {
+            if (vm.editing) {
+                return;
+            }
+
             var modelMatches = data.unitFiles.filter(function(f) {
                 return f.name === vm.model.name;
             });
@@ -68,7 +93,7 @@
         }
 
         function initRefreshInterval() {
-            var promise = $interval(refreshState, appConfig.UNIT_REFRESH_DELAY);
+            var promise = $interval(refreshState, appConfig.QUERY_INTERVAL);
             return function cancelRefreshInterval() {
                 $log.debug('cancel unit refresh $interval');
                 $interval.cancel(promise);
@@ -76,17 +101,8 @@
         }
 
         function refreshState() {
-            fleetService.getUnitFile(vm.model.name)
-                .then(function(unit) {
-
-                    // Update the model as well as current view
-                    if (vm.model.name === vm.current.name) {
-                        vm.current = vm.model = unit;
-                    } else {
-                        vm.model = unit;
-                        vm.current = vm.timerModel;
-                    }
-                });
+            $log.debug('Refresh File', new Date().getTime());
+            fleetService.queryFleetApi().then(onDataChange);
         }
     }
 })();
