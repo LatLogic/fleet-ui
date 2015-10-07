@@ -6,7 +6,7 @@
         .controller('DashboardMain', DashboardMain);
 
     /* @ngInject */
-    function DashboardMain($interval, $log, $modal, $q, $scope, _, appConfig, filterService, fleetService) {
+    function DashboardMain($interval, $log, $modal, $scope, _, appConfig, filterService, fleetService) {
         var vm = this;
 
         // query
@@ -16,7 +16,7 @@
         vm.loading = false;
         vm.autoRefresh = {
             enabled: true,
-            delay: appConfig.UNIT_REFRESH_DELAY
+            delay: appConfig.QUERY_INTERVAL
         };
 
         // view data
@@ -142,7 +142,7 @@
         function onFilterChange() {
             displayQuery();
             vm.loading = true;
-            queryLazy();
+            query();
         }
 
         function displayQuery() {
@@ -150,6 +150,7 @@
         }
 
         function query() {
+            $log.debug('Refresh Main', new Date().getTime());
             fleetService.queryFleetApi()
                 .then(function(data) {
                     vm.machines = data.machines;
@@ -178,8 +179,6 @@
                 });
         }
 
-        var queryLazy = _.debounce(query, 1000);
-
         // Sort by most units descending
         function compareMachineIds(a, b) {
             return vm.machines[b]._units.length - vm.machines[a]._units.length;
@@ -188,7 +187,7 @@
         function registerAutoRefresh() {
             cancelAutoRefresh();
             if (vm.autoRefresh.enabled) {
-                vm.autoRefresh.promise = $interval(queryLazy, vm.autoRefresh.delay);
+                vm.autoRefresh.promise = $interval(query, vm.autoRefresh.delay);
             }
         }
 

@@ -4,7 +4,7 @@
     angular
         .module('app')
         .constant('appConfig', {
-            UNIT_REFRESH_DELAY: 5000,  // 5 secs
+            QUERY_INTERVAL: 5000,  // 5 secs
 
             MAX_MACHINE_SLOTS: 18,
 

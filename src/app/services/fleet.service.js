@@ -11,7 +11,8 @@
 
         return {
             addChangeListener: addChangeListener,
-            queryFleetApi: queryFleetApi,
+            // Throttle queries to keep from spamming the API
+            queryFleetApi: _.throttle(queryFleetApi, appConfig.QUERY_INTERVAL),
             getUnitFile: getUnitFile,
             loadUnit: loadUnit,
             unloadUnit: unloadUnit,
@@ -26,6 +27,8 @@
         }
 
         function queryFleetApi() {
+            $log.debug('Query', new Date().getTime());
+
             return $q.all([
                 getMachines(),
                 getUnitFiles(),
