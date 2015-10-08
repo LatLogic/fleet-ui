@@ -11,7 +11,7 @@
                         <a ng-click="vm.onUnitFileViewModeClick()">Unit Files <span class="badge">{{vm.unitFiles.length}}</span></a>
                     </li>
                     <li role="presentation" ng-class="{'active': vm.query.view==='machine'}">
-                        <a ng-click="vm.onMachineViewModeClick()">Machines <span class="badge">{{(vm.machineSlots | filter:vm.slotFilledFilter).length}}</span></a>
+                        <a ng-click="vm.onMachineViewModeClick()">Machines <span class="badge">{{vm.machines.length}}</span></a>
                     </li>
                 </ul>
                 <div class="input-wrapper">

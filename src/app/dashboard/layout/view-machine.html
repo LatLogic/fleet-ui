@@ -1,7 +1,25 @@
-<div class="columns" ng-if="vm.query.view==='machine'">
-    <div ng-repeat="slot in vm.machineSlots | filter:vm.machineFilter | orderBy:'order' track by slot.order"
-         ng-drop="true" ng-drop-success="vm.onDropComplete(slot, $data)">
-        <ll-machine ng-if="slot.machineId" model="vm.machines[slot.machineId]" expanded="slot.expanded"
-                    ng-drag="true" ng-drag-data="slot"></ll-machine>
-    </div>
+<div ng-if="vm.query.view==='machine'">
+    <table class="table table-condensed table-hover">
+        <thead>
+        <tr>
+            <th>Primary IP</th>
+            <th># Units</th>
+            <th>ID</th>
+            <th>Metadata</th>
+        </tr>
+        <tr>
+            <th colspan="3"></th>
+            <th ng-repeat="header in vm.metadataHeaders">{{header}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="machine in vm.machines | filter:vm.machineFilter | orderBy:'primaryIP' track by machine.id"
+            ng-click="vm.onUnitMachineClick($event, machine)">
+            <td>{{machine.primaryIP}}</td>
+            <td>{{machine._units.length}}</td>
+            <td>{{machine.id}}</td>
+            <td ng-repeat="header in vm.metadataHeaders">{{machine.metadata[header]}}</td>
+        </tr>
+        </tbody>
+    </table>
 </div>

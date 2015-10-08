@@ -78,7 +78,7 @@
             });
 
             // Build list of machines with related unit model
-            var machineList = machines.map(function(m) {
+            data.machines = machines.map(function(m) {
                 return angular.extend(m, {
                     _units: angular.copy(data.units)
                         .filter(function(u) {
@@ -90,8 +90,6 @@
                 });
             });
 
-            // Index by machine ID
-            data.machines = _.indexBy(machineList, 'id');
             return data;
         }
 

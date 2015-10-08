@@ -24,6 +24,7 @@
         vm.machineSlots = [];
         vm.units = [];
         vm.unitFiles = [];
+        vm.metadataHeaders = [];
 
         vm.onKeywordsChange = function() {
             // TODO angular client-side filtering for now
@@ -59,7 +60,8 @@
         vm.onUnitMachineClick = function($event, machine) {
             $event.stopPropagation();
             filterService.pushState({
-                keywords: machine.primaryIP
+                keywords: machine.primaryIP,
+                view: 'unit'
             });
         };
 
@@ -90,11 +92,7 @@
             registerAutoRefresh();
         };
 
-        vm.machineFilter = function(slot) {
-            if (!vm.query.keywords || !slot.machineId) {
-                return true;
-            }
-            var machine = vm.machines[slot.machineId];
+        vm.machineFilter = function(machine) {
             var matchingUnits = machine._units.filter(vm.unitFilter);
             return machine.primaryIP.indexOf(vm.query.keywords)>=0 ||
                 _.values(machine.metadata).join('').indexOf(vm.query.keywords)>=0 ||
@@ -156,32 +154,21 @@
                     vm.machines = data.machines;
                     vm.unitFiles = data.unitFiles;
                     vm.units = data.units;
-
-                    if (vm.machineSlots.length === 0) {
-                        vm.machineSlots = Object.keys(vm.machines)
-                            .sort(compareMachineIds)
-                            .map(function(id, index) {
-                                return {
-                                    order: index,
-                                    machineId: id
-                                };
-                            });
-                    }
-                    if (vm.machineSlots.length < appConfig.MAX_MACHINE_SLOTS) {
-                        for (var i=vm.machineSlots.length; i<appConfig.MAX_MACHINE_SLOTS; i++) {
-                            vm.machineSlots.push({
-                                order: i
-                            });
-                        }
-                    }
+                    vm.metadataHeaders = buildMetadataHeaders(vm.machines);
 
                     vm.loading = false;
                 });
         }
 
-        // Sort by most units descending
-        function compareMachineIds(a, b) {
-            return vm.machines[b]._units.length - vm.machines[a]._units.length;
+        function buildMetadataHeaders(machines) {
+
+            // Gather all possible metadata fields across all machines
+            var allFields = [].concat.apply([], machines.map(function(m) {
+                return _.keys(m.metadata);
+            }));
+
+            // Return the unique set of fields
+            return _.uniq(allFields);
         }
 
         function registerAutoRefresh() {

@@ -11,7 +11,7 @@
         <a type="button" ng-if="!vm.editing" ng-click="vm.onEditClick()" class="btn btn-info"><i class="fa fa-edit"></i> Edit</a>
     </div>
     <div class="alert alert-info" ng-if="vm.editing">
-        <span>You are currently editing <strong>{{vm.model.name}}</strong><span>
+        <span>You are currently editing <strong>{{vm.model.name}}</strong></span>
         <a ng-click="vm.onSaveClick()" class="btn btn-link">Save</a>
         <a ng-click="vm.onCancelClick()" class="btn btn-link">Cancel</i></a>
     </div>
