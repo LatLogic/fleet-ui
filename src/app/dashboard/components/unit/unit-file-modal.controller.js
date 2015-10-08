@@ -11,16 +11,25 @@
         vm.model = model;
         vm.timerModel = timerModel;
         vm.current = vm.model;
+        vm.originalOptions = null;
 
         vm.editing = false;
 
         vm.onEditClick = function() {
+            vm.originalOptions = angular.copy(vm.current._sections);
             vm.editing = true;
         };
 
         vm.onSaveClick = function() {
-            // TODO persist
-            vm.editing = false;
+            $log.debug('updating unit file', vm.current.name);
+            fleetService.updateUnitFile(vm.current)
+                .then(function() {
+                    vm.originalOptions = null;
+                    vm.editing = false;
+                })
+                .catch(function(error) {
+                    $log.error('failed updating unit file', error);
+                });
         };
 
         vm.onCancelClick = function() {
@@ -56,7 +65,9 @@
         }
 
         function cancelEdits() {
-            // TODO revert
+            if (vm.originalOptions) {
+                vm.current._sections = vm.originalOptions;
+            }
             vm.editing = false;
         }
 

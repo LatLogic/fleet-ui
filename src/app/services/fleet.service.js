@@ -17,7 +17,8 @@
             loadUnit: loadUnit,
             unloadUnit: unloadUnit,
             startUnit: startUnit,
-            stopUnit: stopUnit
+            stopUnit: stopUnit,
+            updateUnitFile: updateUnitFile
         };
 
         function addChangeListener(listener) {
@@ -139,6 +140,14 @@
             });
         }
 
+        function updateUnitFile(file) {
+
+            // We must delete and then create to update options
+            return _deleteUnitFile(file).then(function() {
+                return _createUnitFile(file);
+            });
+        }
+
         function loadUnit(name) {
             return _changeUnitState(name, 'loaded');
         }
@@ -168,6 +177,24 @@
                 return data;
             }).catch(function(response) {
                 $log.error('state change error', name, state, response.status);
+            });
+        }
+
+        function _createUnitFile(file) {
+            return $http({
+                method: 'PUT',
+                url: '/api/units/' + file.name,
+                data: {
+                    desiredState: file.desiredState,
+                    options: file.options
+                }
+            });
+        }
+
+        function _deleteUnitFile(file) {
+            return $http({
+                method: 'DELETE',
+                url: '/api/units/' + file.name
             });
         }
 
