@@ -21,7 +21,6 @@
 
         // view data
         vm.machines = [];
-        vm.machineSlots = [];
         vm.units = [];
         vm.unitFiles = [];
         vm.metadataHeaders = [];
@@ -41,7 +40,7 @@
 
         vm.onUnitFileViewModeClick = function() {
             filterService.pushState({
-                view: 'unitFile'
+                view: 'unit-file'
             });
         };
 
